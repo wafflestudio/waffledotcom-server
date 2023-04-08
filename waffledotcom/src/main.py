@@ -9,7 +9,7 @@ def main():
     uvicorn.run(
         fastapi_app,
         host="127.0.0.1",
-        port="8080",
+        port=8080,
     )
 
 
