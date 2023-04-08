@@ -5,6 +5,6 @@ import pytest
 
 
 @pytest.mark.asyncio
-async def test_read_profile(api_mock_client: testclient.TestClient):
+async def test_health(api_mock_client: testclient.TestClient):
     response = api_mock_client.get("/health")
     assert response.status_code == http.HTTPStatus.OK

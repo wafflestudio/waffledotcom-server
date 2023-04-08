@@ -5,7 +5,10 @@ from src import app as app_factory
 
 
 @pytest.fixture(scope="session")
-def api_mock_client():
+def api_mock_client(db_session):
     app = app_factory.create_app()
+    app.session = db_session
     client = testclient.TestClient(app)
-    return client
+
+    yield client
+    client.close()
