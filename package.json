@@ -1,0 +1,14 @@
+{
+  "devDependencies": {
+    "husky": "^8.0.3"
+  },
+	"scripts": {
+    "precommit:waffledotcom/py": "scripts/precommit-py.sh",
+		"prepare": "husky install"
+	},
+  "lint-staged": {
+    "waffledotcom/**/*.py":  [
+      "yarn precommit:waffledotcom/py"
+    ]
+  }
+}

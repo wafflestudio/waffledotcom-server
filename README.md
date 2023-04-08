@@ -1,5 +1,13 @@
 # 와플닷컴 서버
 
+## Prerequisite
+
+```Bash
+$ pyenv 
+$ pip install -r requirements.dev.txt
+```
+
+
 ## ERD (Entity Relationship Diagram)
 
 ## Infra
