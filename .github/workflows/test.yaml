@@ -3,11 +3,8 @@ name: Run Test
 on:
   pull_request:
     paths:
-      - src/**
+      - waffledotcom/**
       - .github/workflows/test.yaml
-
-env:
-  APP_DIR: waffledotcom/src
 
 jobs:
   test:
@@ -33,13 +30,13 @@ jobs:
 
       - name: Run tests
         run: |
-          cd ${GITHUB_WORKSPACE}/${APP_DIR}/
-          pytest --junit-xml=${GITHUB_WORKSPACE}/${APP_DIR}/test.xml ./
+          cd ${GITHUB_WORKSPACE}/waffledotcom/
+          pytest --junit-xml=${GITHUB_WORKSPACE}/waffledotcom/test.xml ./
 
       - name: Test reports
         uses: dorny/test-reporter@v1
         if: success() || failure()
         with:
           name: backend tests
-          path: "./${APP_DIR}/test.xml"
+          path: "./waffledotcom/test.xml"
           reporter: java-junit
