@@ -3,10 +3,16 @@
 ## Prerequisite
 
 ```Bash
-$ pyenv 
+$ pyenv install 3.11.1
+$ pyenv virtualenv 3.11.1 {{venv_name}}
+$ pyenv activate {{venv_name}}
 $ pip install -r requirements.dev.txt
 ```
 
+```Bash
+# Run local server
+$ python src/main.py
+```
 
 ## ERD (Entity Relationship Diagram)
 
