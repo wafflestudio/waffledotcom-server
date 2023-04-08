@@ -40,3 +40,7 @@ jobs:
           name: backend tests
           path: "./waffledotcom/test.xml"
           reporter: java-junit
+      
+      - name: Check Pylint
+        run: |
+          pylint -rn -sn --rcfile=${GITHUB_WORKSPACE}/.pylintrc ./waffledotcom
