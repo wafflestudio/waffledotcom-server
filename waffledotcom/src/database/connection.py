@@ -10,6 +10,7 @@ from src.utils import singleton_utils
 
 class SQLAlchemyHandler(metaclass=singleton_utils.SingletonMeta):
     def __init__(self):
+        # pylint:disable=pointless-string-statement
         if os.environ.get("TEST", "") == "True":
             self._engine = None
             self._session = None
