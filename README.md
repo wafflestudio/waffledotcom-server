@@ -14,9 +14,21 @@ $ pip install -r requirements.dev.txt
 ```
 
 ```Bash
+# Initialize Precommit Hook
+$ yarn install
+```
+
+```Bash
 # Run local server
 $ python src/main.py
 ```
+
+## Convention
+
+- [Python Google Style Guide](https://google.github.io/styleguide/pyguide.html)
+- [Black](https://black.readthedocs.io/en/stable/)
+- [Isort](https://pycqa.github.io/isort/)
+
 
 ## ERD (Entity Relationship Diagram)
 
