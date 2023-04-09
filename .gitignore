@@ -35,3 +35,5 @@ db.sqlite3
 
 # yarn
 node_modules
+
+waffledotcom/src/utils/test/fixtures/database.py

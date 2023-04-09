@@ -10,7 +10,7 @@ from src.database.models import base
 @pytest.fixture(scope="session", name="db_engine")
 def fixture_engine() -> sqlalchemy.Engine:
     with tempfile.TemporaryDirectory() as tmpdirname:
-        url = f"sqlite:////{tmpdirname}/db.sqlite3"
+        url = f"sqlite:////Waffle/Waffledotcom/waffledotcom-server/waffledotcom/test"
         db_engine = sqlalchemy.create_engine(url)
 
         try:
