@@ -2,6 +2,7 @@ from sqlalchemy import orm
 
 from src.database.models import user as user_model
 
+
 def test_db_connection(api_mock_client):
     session: orm.Session = api_mock_client.app.session
     assert isinstance(session, orm.Session)
@@ -17,13 +18,13 @@ def test_db_connection(api_mock_client):
         college='test',
         phone_number='+821012345678',
         github_id='test',
-        github_email = 'test@test.test',
+        github_email='test@test.test',
         slack_id='test',
-        slack_email = 'test@test.test',
-        notion_email = 'test@test.test',
+        slack_email='test@test.test',
+        notion_email='test@test.test',
         generation=1,
         active=True,
-        introduce='test'
+        introduction='test'
     ))
 
     users = session.query(user_model.User.username).all()
