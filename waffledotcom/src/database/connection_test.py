@@ -4,7 +4,7 @@ from src.database.models import user as user_model
 
 
 def test_db_connection(api_mock_client):
-    session: orm.Session = api_mock_client.app.session
+    session: orm.Session = api_mock_client.app.session_factory()
     assert isinstance(session, orm.Session)
 
     # Temporary Example

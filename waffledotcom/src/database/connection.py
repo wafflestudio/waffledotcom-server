@@ -9,12 +9,17 @@ from src.utils import singleton_utils
 
 
 class SQLAlchemyHandler(metaclass=singleton_utils.SingletonMeta):
+    _engine: sqlalchemy.Engine | None
+    _session_factory: orm.sessionmaker | None
+
     def __init__(self):
         # pylint:disable=pointless-string-statement
         if os.environ.get("TEST", "") == "True":
             self._engine = None
-            self._session = None
+            self._session_factory = None
         else:
+            sess = orm.sessionmaker()
+            sess.__call__()
             """Need To Test
             db_config = config.DBConfig()
             self._engine: sqlalchemy.Engine = sqlalchemy.create_engine(
@@ -26,23 +31,32 @@ class SQLAlchemyHandler(metaclass=singleton_utils.SingletonMeta):
                     port=db_config.port,
                 )
             )
-            _session_maker = orm.sessionmaker(bind=self._engine)
-            self._session = _session_maker()
+            self.__session_factory = orm.sessionmaker(bind=self._engine)
             """
 
     @property
-    def session(self) -> orm.Session:
-        return self._session
+    def engine(self) -> sqlalchemy.Engine:
+        if not self._engine:
+            raise RuntimeError("Engine is not created.")
+        return self._engine
 
-    @session.setter
-    def session(self, param):
-        self._session = param
+    @property
+    def session_factory(self) -> orm.sessionmaker:
+        if not self._session_factory:
+            raise RuntimeError("Session factory is not created.")
+        return self._session_factory
+
+    def get_session(self) -> orm.Session:
+        session = self.session_factory()  # pylint:disable=not-callable
+        try:
+            yield session
+        finally:
+            session.commit()
+            session.close()
 
     def __del__(self):
         if self._engine:
             self._engine.dispose()
-        if self._session:
-            self._session.close()
 
 
 def get_db_connection():

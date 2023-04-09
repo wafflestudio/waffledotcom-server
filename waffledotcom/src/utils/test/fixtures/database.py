@@ -13,26 +13,27 @@ def fixture_engine() -> sqlalchemy.Engine:
         url = f"sqlite:////{tmpdirname}/db.sqlite3"
         db_engine = sqlalchemy.create_engine(url)
 
-        yield db_engine
-        db_engine.dispose()
+        try:
+            yield db_engine
+        finally:
+            db_engine.dispose()
 
 
-@pytest.fixture(scope="session")
-def db_session(db_engine: sqlalchemy.Engine) -> orm.Session:
+@pytest.fixture(scope="session", name="session_factory")
+def fixture_session_factory(db_engine: sqlalchemy.Engine) -> orm.Session:
     connection = db_engine.connect()
     trans = connection.begin()
 
-    session_maker = orm.sessionmaker(
+    session_factory = orm.sessionmaker(
         connection,
         expire_on_commit=False,
     )
-    session = session_maker()
 
     # create database
-    base.BaseModel.metadata.create_all(bind=db_engine)
+    base.DeclarativeBase.metadata.create_all(bind=db_engine)
 
-    yield session
-
-    session.close()
-    trans.rollback()
-    connection.close()
+    try:
+        yield session_factory
+    finally:
+        trans.rollback()
+        connection.close()
