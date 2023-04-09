@@ -35,5 +35,6 @@ def fixture_session_factory(db_engine: sqlalchemy.Engine) -> orm.Session:
     try:
         yield session_factory
     finally:
+        session_factory.close_all()
         trans.rollback()
         connection.close()

@@ -16,6 +16,7 @@ def _init_db_engine(app: fastapi.FastAPI):
 
     @app.on_event("shutdown")
     async def shutdown_db_client():
+        app.session_factory.close_all()
         app.db_engine.close()
 
 

@@ -18,8 +18,6 @@ class SQLAlchemyHandler(metaclass=singleton_utils.SingletonMeta):
             self._engine = None
             self._session_factory = None
         else:
-            sess = orm.sessionmaker()
-            sess.__call__()
             """Need To Test
             db_config = config.DBConfig()
             self._engine: sqlalchemy.Engine = sqlalchemy.create_engine(
