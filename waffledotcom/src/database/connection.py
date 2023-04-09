@@ -53,6 +53,8 @@ class SQLAlchemyHandler(metaclass=singleton_utils.SingletonMeta):
             session.close()
 
     def __del__(self):
+        if self._session_factory:
+            self._session_factory.close_all()
         if self._engine:
             self._engine.dispose()
 
