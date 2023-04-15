@@ -1,0 +1,22 @@
+repos:
+  - repo: https://github.com/pycqa/pylint
+    rev: v3.0.0a6
+    hooks:
+    - id: pylint
+      args:
+      - -rn
+      - -sn
+      - --rcfile=.pylintrc
+  - repo: https://github.com/ambv/black
+    rev: '23.3.0'
+    hooks:
+    - id: black
+      language_version: python3.11.1
+      args:
+      - --line-length=88  
+  - repo: https://github.com/pycqa/isort
+    rev: '5.12.0'
+    hooks:
+    - id: isort
+      args:
+      - --profile=google
