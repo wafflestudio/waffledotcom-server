@@ -27,7 +27,7 @@ cover/
 db.sqlite3
 
 # Environments
-.env
+.env.*
 .venv
 
 # VScode
