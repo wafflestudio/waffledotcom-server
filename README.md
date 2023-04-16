@@ -14,12 +14,8 @@ $ pip install -r requirements.dev.txt
 ```
 
 ```Bash
-# Initialize Precommit Hook
-$ yarn install
-```
-
-```Bash
 # Run local server
+$ cd waffledotcom
 $ python src/main.py
 ```
 
