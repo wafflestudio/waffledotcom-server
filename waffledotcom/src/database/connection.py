@@ -15,7 +15,6 @@ class SQLAlchemyHandler(metaclass=singleton_utils.SingletonMeta):
             self._engine = None
             self._session = None
         else:
-            """Need To Test
             db_config = config.DBConfig()
             self._engine: sqlalchemy.Engine = sqlalchemy.create_engine(
                 engine.URL(
@@ -24,11 +23,12 @@ class SQLAlchemyHandler(metaclass=singleton_utils.SingletonMeta):
                     password=db_config.password,
                     host=db_config.host,
                     port=db_config.port,
+                    database=db_config.database,
+                    query={},
                 )
             )
             _session_maker = orm.sessionmaker(bind=self._engine)
             self._session = _session_maker()
-            """
 
     @property
     def session(self) -> orm.Session:
