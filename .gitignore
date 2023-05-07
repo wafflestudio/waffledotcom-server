@@ -33,7 +33,12 @@ db.sqlite3
 # VScode
 .vscode
 
+# Pycharm
+.idea/
+waffledotcom/.idea/
+
 # yarn
 node_modules
 
-waffledotcom/src/utils/test/fixtures/database.py
+waffledotcom/src/database/dbinfo.py
+
