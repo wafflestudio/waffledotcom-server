@@ -83,6 +83,21 @@ disable=too-many-ancestors,
         C0411
 
 
+# C0111 Missing docstring 
+# I0011 Warning locally suppressed using disable-msg
+# I0012 Warning locally suppressed using disable-msg
+# W0704 Except doesn't do anything Used when an except clause does nothing but "pass" and there is no "else" clause
+# W0142 Used * or * magic* Used when a function or method is called using *args or **kwargs to dispatch arguments.
+# W0212 Access to a protected member %s of a client class
+# W0232 Class has no __init__ method Used when a class has no __init__ method, neither its parent classes.
+# W0613 Unused argument %r Used when a function or method argument is not used.
+# W0614 Unused import XYZ from wildcard import
+# R0914 Too many local variables
+# R0912 Too many branches
+# R0915 Too many statements
+# R0913 Too many arguments
+# R0904 Too many public methods
+
 [REPORTS]
 
 # Set the output format. Available formats are text, parseable, colorized, msvs
@@ -172,7 +187,7 @@ max-nested-blocks=5
 [FORMAT]
 
 # Maximum number of characters on a single line.
-max-line-length=88
+max-line-length=140
 
 # Regexp for a line that is allowed to be longer than the limit.
 ignore-long-lines=^\s*(# )?<?https?://\S+>?$
