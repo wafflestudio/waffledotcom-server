@@ -1,3 +1,4 @@
+import bcrypt
 from sqlalchemy import orm
 
 from src.database.models import team
@@ -6,32 +7,22 @@ from src.database.models import sns
 from src.database.models import user
 
 _TEST_USER_KWARGS = {
-    'username':'test',
-    'password':'test',
-    'first_name':'test',
-    'last_name':'test',
-    'student_id':'test',
-    'department':'test',
-    'college':'test',
-    'phone_number':'+821012345678',
-    'github_id':'test',
-    'github_email':'test@test.test',
-    'slack_id':'test',
-    'slack_email':'test@test.test',
-    'notion_email':'test@test.test',
-    'generation':1,
-    'active':True,
-    'introduction':'test'}
-_TEST_TEAM_KWARGS = {
-    'name':'test',
-    'introduction':'test'
-}
-_TEST_POSITION_KWARGS = {
-    'name':'test_position'
-}
-_TEST_SNS_KWARGS = {
-    'name':'testagram',
-    'url':'@waffle'
+    "username": "test",
+    "password": user.User.hash_password("test"),
+    "first_name": "test",
+    "last_name": "test",
+    "student_id": "test",
+    "department": "test",
+    "college": "test",
+    "phone_number": "+821012345678",
+    "github_id": "test",
+    "github_email": "test@test.test",
+    "slack_id": "test",
+    "slack_email": "test@test.test",
+    "notion_email": "test@test.test",
+    "generation": 1,
+    "active": True,
+    "introduction": "test",
 }
 
 
@@ -48,13 +39,13 @@ def test_user_model(api_mock_client):
     users = session.query(user.User).all()
     assert len(users) == 1
     assert users[0].username == "test"
-    assert users[0].password == "test"
+    assert users[0].verify_password("test")
     assert users[0].first_name == "test"
     assert users[0].last_name == "test"
     assert users[0].student_id == "test"
     assert users[0].department == "test"
     assert users[0].college == "test"
-    assert users[0].phone_number.e164 == "+821012345678"
+    assert users[0].phone_number == "+821012345678"
     assert users[0].github_id == "test"
     assert users[0].github_email == "test@test.test"
     assert users[0].slack_id == "test"
