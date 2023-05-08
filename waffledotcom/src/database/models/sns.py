@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from src.database.models import base as base_model
 
 
-class SNS(base_model.BaseModel):
+class SNS(base_model.DeclarativeBase):
     __tablename__ = "tb_sns"
 
     s_idx = sql.Column(name="s_idx", type_=sql.INT, primary_key=True, autoincrement=True)

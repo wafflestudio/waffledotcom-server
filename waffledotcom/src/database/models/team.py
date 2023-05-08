@@ -4,14 +4,24 @@ from sqlalchemy.orm import relationship
 from src.database.models import base as base_model
 
 team_user_association = sql.Table(
-    'teams_users',
-    base_model.BaseModel.metadata,
-    sql.Column('team_id', sql.Integer, sql.ForeignKey('tb_team.t_idx', ondelete='CASCADE'), primary_key=True),
-    sql.Column('user_id', sql.Integer, sql.ForeignKey('tb_user.u_idx', ondelete='CASCADE'), primary_key=True)
+    "teams_users",
+    base_model.DeclarativeBase.metadata,
+    sql.Column(
+        "team_id",
+        sql.Integer,
+        sql.ForeignKey("tb_team.t_idx", ondelete="CASCADE"),
+        primary_key=True,
+    ),
+    sql.Column(
+        "user_id",
+        sql.Integer,
+        sql.ForeignKey("tb_user.u_idx", ondelete="CASCADE"),
+        primary_key=True,
+    ),
 )
 
 
-class Team(base_model.BaseModel):
+class Team(base_model.DeclarativeBase):
     __tablename__ = "tb_team"
 
     t_idx = sql.Column(name="t_idx", type_=sql.INT, primary_key=True, autoincrement=True)

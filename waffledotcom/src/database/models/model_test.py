@@ -36,7 +36,7 @@ _TEST_SNS_KWARGS = {
 
 
 def test_user_model(api_mock_client):
-    session: orm.Session = api_mock_client.app.session
+    session: orm.Session = api_mock_client.app.session_factory()
     assert isinstance(session, orm.Session)
 
     session.query(user.User).delete()
@@ -66,7 +66,7 @@ def test_user_model(api_mock_client):
 
 
 def test_team_model(api_mock_client):
-    session: orm.Session = api_mock_client.app.session
+    session: orm.Session = api_mock_client.app.session_factory()
     assert isinstance(session, orm.Session)
 
     session.query(team.Team).delete()
@@ -82,7 +82,7 @@ def test_team_model(api_mock_client):
 
 
 def test_position_model(api_mock_client):
-    session: orm.Session = api_mock_client.app.session
+    session: orm.Session = api_mock_client.app.session_factory()
     assert isinstance(session, orm.Session)
 
     session.query(position.Position).delete()
@@ -125,7 +125,7 @@ def test_position_model(api_mock_client):
 
 
 def test_team_user_association_model(api_mock_client):
-    session: orm.Session = api_mock_client.app.session
+    session: orm.Session = api_mock_client.app.session_factory()
     assert isinstance(session, orm.Session)
 
     session.query(team.Team).delete()
@@ -168,7 +168,7 @@ def test_team_user_association_model(api_mock_client):
 
 
 def test_sns_model(api_mock_client):
-    session: orm.Session = api_mock_client.app.session
+    session: orm.Session = api_mock_client.app.session_factory()
     assert isinstance(session, orm.Session)
 
     session.query(sns.SNS).delete()
