@@ -5,10 +5,10 @@ from sqlalchemy import engine
 from sqlalchemy import orm
 
 from src.database import config
-from src.utils import singleton_utils
+from src.utils import singleton
 
 
-class SQLAlchemyHandler(metaclass=singleton_utils.SingletonMeta):
+class SQLAlchemyHandler(metaclass=singleton.SingletonMeta):
     _engine: sqlalchemy.Engine | None
     _session_factory: orm.sessionmaker | None
 
@@ -31,7 +31,6 @@ class SQLAlchemyHandler(metaclass=singleton_utils.SingletonMeta):
                 )
             )
             self.__session_factory = orm.sessionmaker(bind=self._engine)
-            """
 
     @property
     def engine(self) -> sqlalchemy.Engine:
@@ -46,7 +45,7 @@ class SQLAlchemyHandler(metaclass=singleton_utils.SingletonMeta):
         return self._session_factory
 
     def get_session(self) -> orm.Session:
-        session = self.session_factory()  # pylint:disable=not-callable
+        session = self.session_factory()
         try:
             yield session
         finally:

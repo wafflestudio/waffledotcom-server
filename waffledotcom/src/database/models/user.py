@@ -2,10 +2,10 @@ import bcrypt
 import sqlalchemy as sql
 from sqlalchemy.orm import relationship
 
-from src.database.models import base as base_model
+from waffledotcom.src.database.models.base import DeclarativeBase
 
 
-class User(base_model.DeclarativeBase):
+class User(DeclarativeBase):
     __tablename__ = "tb_user"
 
     u_idx = sql.Column(name="u_idx", type_=sql.INT, primary_key=True, autoincrement=True)
@@ -31,11 +31,14 @@ class User(base_model.DeclarativeBase):
     active = sql.Column(name="active", type_=sql.BOOLEAN)
 
     from src.database.models.team import team_user_association
-    teams = relationship('Team', secondary=team_user_association, back_populates='users')
+
+    teams = relationship("Team", secondary=team_user_association, back_populates="users")
     from src.database.models.position import position_user_association
-    positions = relationship('Position', secondary=position_user_association, back_populates='users')
+
+    positions = relationship("Position", secondary=position_user_association, back_populates="users")
     from src.database.models.sns import SNS
-    sns = relationship('SNS', back_populates='user')
+
+    sns = relationship("SNS", back_populates="user")
 
     introduction = sql.Column(name="introduce", type_=sql.TEXT, nullable=True)
 
