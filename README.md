@@ -4,23 +4,28 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)
 
-## Prerequisite
 
-```Bash
-$ pyenv install 3.11.1
-$ pyenv virtualenv 3.11.1 {{venv_name}}
-$ pyenv activate {{venv_name}}
-$ pip install -r requirements.dev.txt
+## Prerequisites
+
+- Python version 3.11 and above is required.
+- Install [Poetry](https://python-poetry.org/docs/#installation) package manager to install all the dependencies.
+
+## Installation
+
+### Dependencies
+
+Run the following command to install all the dependencies:
+```bash
+poetry install
 ```
+The above command will install all the required dependencies in a virtual environment.
 
-```Bash
-# Initialize Precommit Hook
-$ yarn install
-```
+### Pre-commit hooks
 
-```Bash
-# Run local server
-$ python src/main.py
+This repository uses pre-commit hooks to ensure consistent code quality. To install pre-commit hooks, run the following command:
+
+```bash
+pre-commit install
 ```
 
 ## Convention
