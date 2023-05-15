@@ -4,8 +4,8 @@ import sqlalchemy
 from sqlalchemy import engine
 from sqlalchemy import orm
 
-from src.database import config
-from src.utils import singleton
+from waffledotcom.src.database.config import DBConfig
+from waffledotcom.src.utils.singleton import SingletonMeta
 
 
 class SQLAlchemyHandler(metaclass=singleton.SingletonMeta):
@@ -13,24 +13,8 @@ class SQLAlchemyHandler(metaclass=singleton.SingletonMeta):
     _session_factory: orm.sessionmaker | None
 
     def __init__(self):
-        # pylint:disable=pointless-string-statement
-        if os.environ.get("TEST", "") == "True":
-            self._engine = None
-            self._session_factory = None
-        else:
-            db_config = config.DBConfig()
-            self._engine: sqlalchemy.Engine = sqlalchemy.create_engine(
-                engine.URL(
-                    "mysql",
-                    username=db_config.username,
-                    password=db_config.password,
-                    host=db_config.host,
-                    port=db_config.port,
-                    database=db_config.database,
-                    query={},
-                )
-            )
-            self.__session_factory = orm.sessionmaker(bind=self._engine)
+        self.engine: sqlalchemy.Engine = sqlalchemy.create_engine(DBConfig().url)
+        self.session_maker = orm.sessionmaker(bind=self.engine, expire_on_commit=False)
 
     @property
     def engine(self) -> sqlalchemy.Engine:
