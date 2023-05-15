@@ -16,9 +16,10 @@
 
 Run the following command to install all the dependencies:
 ```bash
+poetry config virtualenvs.in-project true
 poetry install
 ```
-The above command will install all the required dependencies in a virtual environment.
+The above command will install all the required dependencies in a virtual environment. **Ensure that poetry have created `.venv` folder inside the project root. Otherwise pre-commit hooks won't work.**
 
 ### Pre-commit hooks
 
@@ -47,7 +48,7 @@ pre-commit install
 - ecr-heimdall ([link](https://github.com/wafflestudio/ecr-heimdall))
   - **ECR** push event triggers **AWS Lambda** function to update manifest files in [waffle-world](https://github.com/wafflestudio/waffle-world).
     > `docker build -t ecr-heimdall . --platform linux/amd64`
-    
+
     > `docker run --platform linux/amd64 -v ~/.aws/ccredentials:/root/.aws/credentials -it ecr-heimdall`
   - ArgoCD detects the change in the manifest file and deploys the new image in `waffle-cluster`.
 - GitOps
