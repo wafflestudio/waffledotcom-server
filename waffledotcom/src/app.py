@@ -1,12 +1,12 @@
 import fastapi
 
-from src.database import connection
 from waffledotcom.src.database.connection import DBSessionFactory
 
+from waffledotcom.src.apis.router import api_router
 
-def _add_routers(app: fastapi.FastAPI):
-    app.include_router(health.router)
 
+def add_routers(app: fastapi.FastAPI):
+    app.include_router(router=api_router, prefix="/api")
 
 
 def register_shutdown_event(app: fastapi.FastAPI):
@@ -19,6 +19,6 @@ def register_shutdown_event(app: fastapi.FastAPI):
 
 def create_app() -> fastapi.FastAPI:
     app = fastapi.FastAPI()
-    _add_routers(app)
+    add_routers(app)
     register_shutdown_event(app)
     return app
