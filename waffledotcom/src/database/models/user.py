@@ -30,13 +30,13 @@ class User(DeclarativeBase):
     generation = sql.Column(name="generation", type_=sql.INT)
     active = sql.Column(name="active", type_=sql.BOOLEAN)
 
-    from src.database.models.team import team_user_association
+    from waffledotcom.src.database.models.team import team_user_association
 
     teams = relationship("Team", secondary=team_user_association, back_populates="users")
-    from src.database.models.position import position_user_association
+    from waffledotcom.src.database.models.position import position_user_association
 
     positions = relationship("Position", secondary=position_user_association, back_populates="users")
-    from src.database.models.sns import SNS
+    from waffledotcom.src.database.models.sns import SNS
 
     sns = relationship("SNS", back_populates="user")
 

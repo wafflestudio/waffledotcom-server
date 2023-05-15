@@ -1,7 +1,7 @@
 import sqlalchemy as sql
 from sqlalchemy.orm import relationship
 
-from src.database.models import base as base_model
+from waffledotcom.src.database.models import base as base_model
 
 position_user_association = sql.Table(
     "positions_users",
@@ -26,5 +26,4 @@ class Position(base_model.DeclarativeBase):
 
     p_idx = sql.Column(name="p_idx", type_=sql.INT, primary_key=True, autoincrement=True)
     name = sql.Column(name="name", type_=sql.VARCHAR(50), unique=True)
-    users = relationship('User', secondary=position_user_association, back_populates='positions')
-
+    users = relationship("User", secondary=position_user_association, back_populates="positions")
