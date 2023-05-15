@@ -1,6 +1,8 @@
-from waffledotcom.src.database.models.base import DeclarativeBase
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped
+from sqlalchemy.orm import mapped_column
 from sqlalchemy.sql.sqltypes import String
+
+from waffledotcom.src.database.models.base import DeclarativeBase
 
 
 class DummyModel(DeclarativeBase):

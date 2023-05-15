@@ -1,7 +1,8 @@
 import pytest
-from waffledotcom.src.apis.dummy.repository import DummyRepository
-from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm import Session
+
+from waffledotcom.src.apis.dummy.repository import DummyRepository
 
 
 def test_create_dummy(db_session: Session):

@@ -8,7 +8,9 @@ from waffledotcom.src.database.models.base import DeclarativeBase
 class User(DeclarativeBase):
     __tablename__ = "tb_user"
 
-    u_idx = sql.Column(name="u_idx", type_=sql.INT, primary_key=True, autoincrement=True)
+    u_idx = sql.Column(
+        name="u_idx", type_=sql.INT, primary_key=True, autoincrement=True
+    )
     username = sql.Column(name="username", type_=sql.VARCHAR(50), unique=True)
     password = sql.Column(name="password", type_=sql.TEXT)
 
@@ -32,10 +34,14 @@ class User(DeclarativeBase):
 
     from waffledotcom.src.database.models.team import team_user_association
 
-    teams = relationship("Team", secondary=team_user_association, back_populates="users")
+    teams = relationship(
+        "Team", secondary=team_user_association, back_populates="users"
+    )
     from waffledotcom.src.database.models.position import position_user_association
 
-    positions = relationship("Position", secondary=position_user_association, back_populates="users")
+    positions = relationship(
+        "Position", secondary=position_user_association, back_populates="users"
+    )
     from waffledotcom.src.database.models.sns import SNS
 
     sns = relationship("SNS", back_populates="user")

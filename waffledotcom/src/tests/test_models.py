@@ -1,9 +1,9 @@
 import bcrypt
 from sqlalchemy.orm import Session
 
-from waffledotcom.src.database.models import team
 from waffledotcom.src.database.models import position
 from waffledotcom.src.database.models import sns
+from waffledotcom.src.database.models import team
 from waffledotcom.src.database.models import user
 
 _TEST_USER_KWARGS = {

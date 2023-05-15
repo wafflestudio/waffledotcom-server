@@ -1,8 +1,7 @@
 import fastapi
 
-from waffledotcom.src.database.connection import DBSessionFactory
-
 from waffledotcom.src.apis.router import api_router
+from waffledotcom.src.database.connection import DBSessionFactory
 
 
 def add_routers(app: fastapi.FastAPI):

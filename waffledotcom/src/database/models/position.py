@@ -24,6 +24,10 @@ position_user_association = sql.Table(
 class Position(base_model.DeclarativeBase):
     __tablename__ = "tb_position"
 
-    p_idx = sql.Column(name="p_idx", type_=sql.INT, primary_key=True, autoincrement=True)
+    p_idx = sql.Column(
+        name="p_idx", type_=sql.INT, primary_key=True, autoincrement=True
+    )
     name = sql.Column(name="name", type_=sql.VARCHAR(50), unique=True)
-    users = relationship("User", secondary=position_user_association, back_populates="positions")
+    users = relationship(
+        "User", secondary=position_user_association, back_populates="positions"
+    )

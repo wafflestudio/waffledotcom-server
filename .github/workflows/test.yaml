@@ -43,4 +43,4 @@ jobs:
 
       - name: Check Pylint
         run: |
-          pylint -rn -sn --rcfile=${GITHUB_WORKSPACE}/.pylintrc ./waffledotcom
+          poetry run pylint -rn -sn --rcfile=${GITHUB_WORKSPACE}/.pylintrc ./waffledotcom
