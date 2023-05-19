@@ -1,6 +1,5 @@
 from typing import Iterator
 
-from fastapi import Depends
 import sqlalchemy
 from sqlalchemy import orm
 

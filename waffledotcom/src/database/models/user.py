@@ -1,56 +1,56 @@
-import bcrypt
-import sqlalchemy as sql
+from typing import TYPE_CHECKING
+
+from sqlalchemy import Boolean
+from sqlalchemy import String
+from sqlalchemy.orm import Mapped
+from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import relationship
 
 from waffledotcom.src.database.models.base import DeclarativeBase
+from waffledotcom.src.database.models.base import intpk
+from waffledotcom.src.database.models.base import str20
+from waffledotcom.src.database.models.base import str50
+from waffledotcom.src.database.models.position import position_user_association
+from waffledotcom.src.database.models.team import team_user_association
+
+if TYPE_CHECKING:
+    from waffledotcom.src.database.models.position import Position
+    from waffledotcom.src.database.models.sns import SNSAccount
+    from waffledotcom.src.database.models.team import Team
 
 
 class User(DeclarativeBase):
-    __tablename__ = "tb_user"
+    __tablename__ = "user"
 
-    u_idx = sql.Column(
-        name="u_idx", type_=sql.INT, primary_key=True, autoincrement=True
+    id: Mapped[intpk]
+    username: Mapped[str] = mapped_column(String(50), unique=True)
+    password: Mapped[str] = mapped_column(String(100))
+
+    first_name: Mapped[str20]
+    last_name: Mapped[str20]
+
+    department: Mapped[str50 | None]
+    college: Mapped[str50 | None]
+
+    phone_number: Mapped[str20 | None]
+
+    github_id: Mapped[str50 | None]
+    github_email: Mapped[str50 | None]
+    slack_id: Mapped[str50 | None]
+    slack_email: Mapped[str50 | None]
+    notion_email: Mapped[str50 | None]
+    apple_email: Mapped[str50 | None]
+
+    is_active_member: Mapped[bool] = mapped_column(Boolean, default=False)
+    is_admin: Mapped[bool] = mapped_column(Boolean, default=False)
+    introduction: Mapped[str] = mapped_column(String(1000), nullable=True)
+
+    teams: Mapped[list["Team"]] = relationship(
+        secondary=team_user_association, back_populates="users"
     )
-    username = sql.Column(name="username", type_=sql.VARCHAR(50), unique=True)
-    password = sql.Column(name="password", type_=sql.TEXT)
-
-    first_name = sql.Column(name="first_name", type_=sql.VARCHAR(50))
-    last_name = sql.Column(name="last_name", type_=sql.VARCHAR(50))
-    student_id = sql.Column(name="student_id", type_=sql.VARCHAR(20))
-
-    department = sql.Column(name="department", type_=sql.VARCHAR(40))
-    college = sql.Column(name="college", type_=sql.VARCHAR(40))
-
-    phone_number = sql.Column(name="phone_number", type_=sql.VARCHAR(30))
-    github_id = sql.Column(name="github_id", type_=sql.VARCHAR(50))
-    github_email = sql.Column(name="github_email", type_=sql.VARCHAR(50))
-    slack_id = sql.Column(name="slack_id", type_=sql.VARCHAR(50))
-    slack_email = sql.Column(name="slack_email", type_=sql.VARCHAR(50))
-    notion_email = sql.Column(name="notion_email", type_=sql.VARCHAR(50))
-    apple_email = sql.Column(name="apple_email", type_=sql.VARCHAR(50), nullable=True)
-
-    generation = sql.Column(name="generation", type_=sql.INT)
-    active = sql.Column(name="active", type_=sql.BOOLEAN)
-
-    from waffledotcom.src.database.models.team import team_user_association
-
-    teams = relationship(
-        "Team", secondary=team_user_association, back_populates="users"
+    positions: Mapped[list["Position"]] = relationship(
+        secondary=position_user_association, back_populates="users"
     )
-    from waffledotcom.src.database.models.position import position_user_association
-
-    positions = relationship(
-        "Position", secondary=position_user_association, back_populates="users"
+    sns_accounts: Mapped[list["SNSAccount"]] = relationship(
+        back_populates="user", cascade="all, delete"
     )
-    from waffledotcom.src.database.models.sns import SNS
-
-    sns = relationship("SNS", back_populates="user")
-
-    introduction = sql.Column(name="introduce", type_=sql.TEXT, nullable=True)
-
-    def verify_password(self, password):
-        return bcrypt.checkpw(password.encode("utf-8"), self.password.encode("utf-8"))
-
-    @staticmethod
-    def hash_password(password):
-        return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
