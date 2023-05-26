@@ -12,14 +12,13 @@ from waffledotcom.src.database.models.base import DeclarativeBase
 def db_engine() -> Iterable[sqlalchemy.Engine]:
     with tempfile.TemporaryDirectory() as tmpdirname:
         url = f"sqlite:////{tmpdirname}/db.sqlite3"
-        db_engine = sqlalchemy.create_engine(url)
-
-        DeclarativeBase.metadata.create_all(bind=db_engine)
+        engine = sqlalchemy.create_engine(url)
+        DeclarativeBase.metadata.create_all(bind=engine)
 
         try:
-            yield db_engine
+            yield engine
         finally:
-            db_engine.dispose()
+            engine.dispose()
 
 
 @pytest.fixture(scope="function")
