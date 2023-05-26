@@ -9,11 +9,11 @@ class DBConfig(BaseSettings):
     password: str = ""
     host: str = ""
     port: int = 0
-    db_name: str = ""
+    name: str = ""
 
     class Config:
         case_sensitive = False
-        env_prefix = "DATABASE_"
+        env_prefix = "DB_"
 
         dev_or_prod = Settings().env
         env_file = (
@@ -23,4 +23,4 @@ class DBConfig(BaseSettings):
 
     @property
     def url(self) -> str:
-        return f"mysql+mysqldb://{self.username}:{self.password}@{self.host}:{self.port}/{self.db_name}"
+        return f"mysql+mysqldb://{self.username}:{self.password}@{self.host}:{self.port}/{self.name}"
