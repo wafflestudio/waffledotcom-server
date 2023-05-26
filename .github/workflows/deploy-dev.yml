@@ -1,0 +1,45 @@
+name: Deploy-dev
+
+on:
+  push:
+    branches: [develop]
+
+jobs:
+  deploy:
+    name: deploy dev
+    runs-on: ubuntu-latest
+
+    env:
+      IMAGE_TAG: ${{ github.run_number }}
+      ECR_REPOSITORY: waffledotcom-dev/waffledotcom-server
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push image to ECR to be deployed for K8S
+        id: build-image-k8s
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG . \
+                      --build-arg ENV=dev                                     \
+                      --build-arg DB_HOST=${{ secrets.DB_HOST }}              \
+                      --build-arg DB_PORT=${{ secrets.DB_PORT }}              \
+                      --build-arg DB_NAME=${{ secrets.DB_NAME }}              \
+                      --build-arg DB_USERNAME=${{ secrets.DB_USERNAME }}      \
+                      --build-arg DB_PASSWORD=${{ secrets.DB_PASSWORD }}      \
+
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
