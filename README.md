@@ -9,6 +9,7 @@
 
 - Python version 3.11 and above is required.
 - Install [Poetry](https://python-poetry.org/docs/#installation) package manager to install all the dependencies.
+- A MySQL client is required for database operations in your local machine. On macos, you can install via `brew install mysql-client` or `brew install mysql`. Don't forget to add it to PATH.
 
 ## Installation
 
