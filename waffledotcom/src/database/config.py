@@ -25,5 +25,5 @@ class DBConfig(BaseSettings):
     def url(self) -> str:
         return (
             f"mysql+mysqldb://{self.username}:{self.password}"
-            "@{self.host}:{self.port}/{self.name}"
+            f"@{self.host}:{self.port}/{self.name}"
         )
