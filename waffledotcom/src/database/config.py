@@ -1,7 +1,7 @@
 from pydantic import BaseSettings
 
+from waffledotcom.src.settings import ROOT_PATH
 from waffledotcom.src.settings import Settings
-from waffledotcom.src.utils import ROOT_PATH
 
 
 class DBConfig(BaseSettings):

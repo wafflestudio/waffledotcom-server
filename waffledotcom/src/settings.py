@@ -1,7 +1,9 @@
+from pathlib import Path
 from typing import Literal
 
 from pydantic import BaseSettings
-from pydantic import Field
+
+ROOT_PATH = Path(__file__).parent.parent.parent
 
 
 class Settings(BaseSettings):
