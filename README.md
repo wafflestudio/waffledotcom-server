@@ -4,23 +4,29 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)
 
-## Prerequisite
 
-```Bash
-$ pyenv install 3.11.1
-$ pyenv virtualenv 3.11.1 {{venv_name}}
-$ pyenv activate {{venv_name}}
-$ pip install -r requirements.dev.txt
+## Prerequisites
+
+- Python version 3.11 and above is required.
+- Install [Poetry](https://python-poetry.org/docs/#installation) package manager to install all the dependencies.
+
+## Installation
+
+### Dependencies
+
+Run the following command to install all the dependencies:
+```bash
+poetry config virtualenvs.in-project true
+poetry install
 ```
+The above command will install all the required dependencies in a virtual environment. **Ensure that poetry have created `.venv` folder inside the project root. Otherwise pre-commit hooks won't work.**
 
-```Bash
-# Initialize Precommit Hook
-$ yarn install
-```
+### Pre-commit hooks
 
-```Bash
-# Run local server
-$ python src/main.py
+This repository uses pre-commit hooks to ensure consistent code quality. To install pre-commit hooks, run the following command:
+
+```bash
+pre-commit install
 ```
 
 ## Convention
@@ -42,7 +48,7 @@ $ python src/main.py
 - ecr-heimdall ([link](https://github.com/wafflestudio/ecr-heimdall))
   - **ECR** push event triggers **AWS Lambda** function to update manifest files in [waffle-world](https://github.com/wafflestudio/waffle-world).
     > `docker build -t ecr-heimdall . --platform linux/amd64`
-    
+
     > `docker run --platform linux/amd64 -v ~/.aws/ccredentials:/root/.aws/credentials -it ecr-heimdall`
   - ArgoCD detects the change in the manifest file and deploys the new image in `waffle-cluster`.
 - GitOps

@@ -1,3 +1,5 @@
+from typing import Type
+
 from sqlalchemy import orm
 
-DeclarativeBase: orm.DeclarativeBase = orm.declarative_base()
+DeclarativeBase: Type[orm.DeclarativeBase] = orm.declarative_base()

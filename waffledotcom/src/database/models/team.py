@@ -1,11 +1,11 @@
 import sqlalchemy as sql
 from sqlalchemy.orm import relationship
 
-from src.database.models import base as base_model
+from waffledotcom.src.database.models.base import DeclarativeBase
 
 team_user_association = sql.Table(
     "teams_users",
-    base_model.DeclarativeBase.metadata,
+    DeclarativeBase.metadata,
     sql.Column(
         "team_id",
         sql.Integer,
@@ -21,11 +21,14 @@ team_user_association = sql.Table(
 )
 
 
-class Team(base_model.DeclarativeBase):
+class Team(DeclarativeBase):
     __tablename__ = "tb_team"
 
-    t_idx = sql.Column(name="t_idx", type_=sql.INT, primary_key=True, autoincrement=True)
+    t_idx = sql.Column(
+        name="t_idx", type_=sql.INT, primary_key=True, autoincrement=True
+    )
     name = sql.Column(name="name", type_=sql.VARCHAR(50), unique=True)
     introduction = sql.Column(name="introduce", type_=sql.TEXT, nullable=True)
-    users = relationship('User', secondary=team_user_association, back_populates='teams')
-
+    users = relationship(
+        "User", secondary=team_user_association, back_populates="teams"
+    )

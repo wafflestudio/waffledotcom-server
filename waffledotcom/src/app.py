@@ -1,27 +1,23 @@
 import fastapi
 
-from src.database import connection
-from src.routers import health
+from waffledotcom.src.apis.router import api_router
+from waffledotcom.src.database.connection import DBSessionFactory
 
 
 def _add_routers(app: fastapi.FastAPI):
-    app.include_router(health.router)
+    app.include_router(router=api_router, prefix="/api")
 
 
-def _init_db_engine(app: fastapi.FastAPI):
-    @app.on_event("startup")
-    async def startup_db_client():
-        app.db_engine = connection.get_db_connection().engine
-        app.session_factory = connection.get_db_connection().session_factory
-
+def _register_shutdown_event(app: fastapi.FastAPI):
     @app.on_event("shutdown")
-    async def shutdown_db_client():
-        app.session_factory.close_all()
-        app.db_engine.dispose()
+    def on_shutdown():
+        DBSessionFactory().teardown()
+
+    return on_shutdown()
 
 
-def create_app():
+def create_app() -> fastapi.FastAPI:
     app = fastapi.FastAPI()
     _add_routers(app)
-    _init_db_engine(app)
+    _register_shutdown_event(app)
     return app
