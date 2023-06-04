@@ -29,7 +29,7 @@ def db_session(db_engine: sqlalchemy.Engine) -> Iterable[orm.Session]:
 
     session_maker = orm.sessionmaker(
         connection,
-        expire_on_commit=False,
+        expire_on_commit=True,
     )
 
     session = session_maker()

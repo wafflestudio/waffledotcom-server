@@ -13,11 +13,13 @@ def _register_shutdown_event(app: fastapi.FastAPI):
     def on_shutdown():
         DBSessionFactory().teardown()
 
-    return on_shutdown()
+    return on_shutdown
 
 
 def create_app() -> fastapi.FastAPI:
-    app = fastapi.FastAPI()
+    app = fastapi.FastAPI(
+        title="waffledotcom-server",
+    )
     _add_routers(app)
     _register_shutdown_event(app)
     return app

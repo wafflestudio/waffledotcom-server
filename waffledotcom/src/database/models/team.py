@@ -1,34 +1,47 @@
-import sqlalchemy as sql
+from typing import TYPE_CHECKING
+
+from sqlalchemy import Column
+from sqlalchemy import ForeignKey
+from sqlalchemy import Integer
+from sqlalchemy import String
+from sqlalchemy import Table
+from sqlalchemy.orm import Mapped
+from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import relationship
 
 from waffledotcom.src.database.models.base import DeclarativeBase
+from waffledotcom.src.database.models.base import intpk
+from waffledotcom.src.database.models.base import str20
 
-team_user_association = sql.Table(
-    "teams_users",
+if TYPE_CHECKING:
+    from waffledotcom.src.database.models.user import User
+
+
+team_user_association = Table(
+    "team_user_association",
     DeclarativeBase.metadata,
-    sql.Column(
+    Column(
         "team_id",
-        sql.Integer,
-        sql.ForeignKey("tb_team.t_idx", ondelete="CASCADE"),
+        Integer,
+        ForeignKey("team.id"),
         primary_key=True,
     ),
-    sql.Column(
+    Column(
         "user_id",
-        sql.Integer,
-        sql.ForeignKey("tb_user.u_idx", ondelete="CASCADE"),
+        Integer,
+        ForeignKey("user.id"),
         primary_key=True,
     ),
 )
 
 
 class Team(DeclarativeBase):
-    __tablename__ = "tb_team"
+    __tablename__ = "team"
 
-    t_idx = sql.Column(
-        name="t_idx", type_=sql.INT, primary_key=True, autoincrement=True
-    )
-    name = sql.Column(name="name", type_=sql.VARCHAR(50), unique=True)
-    introduction = sql.Column(name="introduce", type_=sql.TEXT, nullable=True)
-    users = relationship(
-        "User", secondary=team_user_association, back_populates="teams"
+    id: Mapped[intpk]
+    name: Mapped[str20]
+    introduction: Mapped[str] = mapped_column(String(1000), nullable=True)
+    users: Mapped[list["User"]] = relationship(
+        secondary=team_user_association,
+        back_populates="teams",
     )

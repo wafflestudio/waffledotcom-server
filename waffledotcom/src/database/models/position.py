@@ -1,33 +1,43 @@
-import sqlalchemy as sql
+from typing import TYPE_CHECKING
+
+from sqlalchemy import Column
+from sqlalchemy import ForeignKey
+from sqlalchemy import Integer
+from sqlalchemy import String
+from sqlalchemy import Table
+from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import relationship
 
-from waffledotcom.src.database.models import base as base_model
+from waffledotcom.src.database.models.base import DeclarativeBase
+from waffledotcom.src.database.models.base import intpk
+from waffledotcom.src.database.models.base import mapped_column
 
-position_user_association = sql.Table(
-    "positions_users",
-    base_model.DeclarativeBase.metadata,
-    sql.Column(
+if TYPE_CHECKING:
+    from waffledotcom.src.database.models.user import User
+
+position_user_association = Table(
+    "position_user_association",
+    DeclarativeBase.metadata,
+    Column(
         "position_id",
-        sql.Integer,
-        sql.ForeignKey("tb_position.p_idx", ondelete="CASCADE"),
+        Integer,
+        ForeignKey("position.id"),
         primary_key=True,
     ),
-    sql.Column(
+    Column(
         "user_id",
-        sql.Integer,
-        sql.ForeignKey("tb_user.u_idx", ondelete="CASCADE"),
+        Integer,
+        ForeignKey("user.id"),
         primary_key=True,
     ),
 )
 
 
-class Position(base_model.DeclarativeBase):
-    __tablename__ = "tb_position"
+class Position(DeclarativeBase):
+    __tablename__ = "position"
 
-    p_idx = sql.Column(
-        name="p_idx", type_=sql.INT, primary_key=True, autoincrement=True
-    )
-    name = sql.Column(name="name", type_=sql.VARCHAR(50), unique=True)
-    users = relationship(
-        "User", secondary=position_user_association, back_populates="positions"
+    id: Mapped[intpk]
+    name: Mapped[str] = mapped_column(String(50), unique=True)
+    users: Mapped[list["User"]] = relationship(
+        secondary=position_user_association, back_populates="positions"
     )

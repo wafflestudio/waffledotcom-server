@@ -39,3 +39,9 @@ exclude = [
 venvPath = "."
 venv = ".venv"
 reportShadowedImports = false
+
+[tool.isort]
+profile = "black"
+
+[tool.pycln]
+all = true
