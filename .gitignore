@@ -43,4 +43,3 @@ node_modules
 # alembic
 waffledotcom/alembic.ini
 waffledotcom/migrations/
-
