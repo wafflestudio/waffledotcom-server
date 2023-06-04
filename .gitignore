@@ -33,5 +33,13 @@ db.sqlite3
 # VScode
 .vscode
 
+# Pycharm
+.idea/
+waffledotcom/.idea/
+
 # yarn
 node_modules
+
+# alembic
+waffledotcom/alembic.ini
+waffledotcom/migrations/

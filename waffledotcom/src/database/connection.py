@@ -18,7 +18,6 @@ class SQLAlchemyHandler(metaclass=singleton_utils.SingletonMeta):
             self._engine = None
             self._session_factory = None
         else:
-            """Need To Test
             db_config = config.DBConfig()
             self._engine: sqlalchemy.Engine = sqlalchemy.create_engine(
                 engine.URL(
@@ -27,6 +26,8 @@ class SQLAlchemyHandler(metaclass=singleton_utils.SingletonMeta):
                     password=db_config.password,
                     host=db_config.host,
                     port=db_config.port,
+                    database=db_config.database,
+                    query={},
                 )
             )
             self.__session_factory = orm.sessionmaker(bind=self._engine)
