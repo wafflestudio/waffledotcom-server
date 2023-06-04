@@ -40,5 +40,4 @@ waffledotcom/.idea/
 # yarn
 node_modules
 
-!.env.local
 *.local
