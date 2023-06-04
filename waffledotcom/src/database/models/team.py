@@ -18,7 +18,7 @@ if TYPE_CHECKING:
 
 
 team_user_association = Table(
-    "teams_users",
+    "team_user_association",
     DeclarativeBase.metadata,
     Column(
         "team_id",

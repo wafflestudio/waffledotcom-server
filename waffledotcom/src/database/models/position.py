@@ -16,7 +16,7 @@ if TYPE_CHECKING:
     from waffledotcom.src.database.models.user import User
 
 position_user_association = Table(
-    "positions_users",
+    "position_user_association",
     DeclarativeBase.metadata,
     Column(
         "position_id",
