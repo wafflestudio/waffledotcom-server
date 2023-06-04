@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: waffledotcom
+  namespace: waffle
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: waffledotcom
+  template:
+    metadata:
+      labels:
+        app: waffledotcom
+    spec:
+      containers:
+        - name: waffledotcom
+          image: waffledotcom-local/waffledotcom-server:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+        - name: mysql
+          image: mysql/mysql-server:8.0
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "1234"

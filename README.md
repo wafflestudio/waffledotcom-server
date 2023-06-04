@@ -36,6 +36,14 @@ pre-commit install
 - [Black](https://black.readthedocs.io/en/stable/)
 - [Isort](https://pycqa.github.io/isort/)
 
+## Development Setting
+
+Based on docker-desktop k8s. You need to manually set up database and tables in mysql pod.
+```bash
+$ make up # run local server with docker-desktop k8s
+$ make down # stop local server
+```
+
 
 ## ERD (Entity Relationship Diagram)
 

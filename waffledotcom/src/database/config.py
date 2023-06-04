@@ -15,10 +15,14 @@ class DBConfig(BaseSettings):
         case_sensitive = False
         env_prefix = "DB_"
 
-        dev_or_prod = Settings().env
+        site = Settings().env
         env_file = (
-            ROOT_PATH / f".env.{dev_or_prod}",
-            ROOT_PATH / f".env.{dev_or_prod}.local",
+            (
+                ROOT_PATH / f".env.{site}",
+                ROOT_PATH / f".env.{site}.local",
+            )
+            if site != "local"
+            else ROOT_PATH / ".env.local"
         )
 
     @property
