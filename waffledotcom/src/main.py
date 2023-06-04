@@ -2,12 +2,13 @@ import uvicorn
 
 from waffledotcom.src.app import create_app
 
+app = create_app()
+
 
 def main():
     """Entrypoint of the application."""
-    fastapi_app = create_app()
     uvicorn.run(
-        fastapi_app,
+        app,
         host="127.0.0.1",
         port=8080,
     )

@@ -58,6 +58,7 @@ confidence=
 # --disable=W"
 
 disable=too-many-ancestors,
+        redefined-outer-name,
         unexpected-keyword-arg,
         too-many-return-statements,
         invalid-name,
