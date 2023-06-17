@@ -37,7 +37,36 @@ pre-commit install
 - [Isort](https://pycqa.github.io/isort/)
 
 
-## ERD (Entity Relationship Diagram)
+## Migration
+
+To generate migrations you should run:
+
+```bash
+# For automatic change detection.
+alembic revision --autogenerate -m "revision summary"
+
+# For empty file generation.
+alembic revision
+```
+
+If you want to migrate your database, you should run following commands:
+
+```bash
+# To perform all pending migrations.
+alembic upgrade head
+
+# To run all migrations until the migration with revision_id.
+alembic upgrade <revision_id>
+```
+
+If you want to revert migrations, you should run:
+```bash
+# Revert everything.
+alembic downgrade base
+
+# revert all migrations up to: revision_id.
+alembic downgrade <revision_id>
+```
 
 ## Infra
 - CI/CD

@@ -37,6 +37,7 @@ pythonpath = [
 exclude = [
     "**/node_modules",
     "**/__pycache__",
+    "**/migrations/versions",
 ]
 venvPath = "."
 venv = ".venv"
