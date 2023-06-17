@@ -41,3 +41,4 @@ waffledotcom/.idea/
 node_modules
 
 *.local
+*.pickle
