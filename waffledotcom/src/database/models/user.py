@@ -8,8 +8,8 @@ from sqlalchemy.orm import relationship
 
 from waffledotcom.src.database.models.base import DeclarativeBase
 from waffledotcom.src.database.models.base import intpk
-from waffledotcom.src.database.models.base import str20
-from waffledotcom.src.database.models.base import str50
+from waffledotcom.src.database.models.base import str30
+from waffledotcom.src.database.models.base import str50_default_none
 from waffledotcom.src.database.models.position import position_user_association
 from waffledotcom.src.database.models.team import team_user_association
 
@@ -23,25 +23,28 @@ class User(DeclarativeBase):
     __tablename__ = "user"
 
     id: Mapped[intpk]
-    username: Mapped[str] = mapped_column(String(50), unique=True)
-    password: Mapped[str] = mapped_column(String(100))
+    sso_id: Mapped[str50_default_none] = mapped_column(unique=True)
+    username: Mapped[str50_default_none] = mapped_column(unique=True)
+    image_url: Mapped[str | None] = mapped_column(String(200), nullable=True)
 
-    first_name: Mapped[str20]
-    last_name: Mapped[str20]
+    first_name: Mapped[str30]
+    last_name: Mapped[str30]
 
-    department: Mapped[str50 | None]
-    college: Mapped[str50 | None]
+    department: Mapped[str50_default_none]
+    college: Mapped[str50_default_none]
 
-    phone_number: Mapped[str20 | None]
+    phone_number: Mapped[str30 | None]
 
-    github_id: Mapped[str50 | None]
-    github_email: Mapped[str50 | None]
-    slack_id: Mapped[str50 | None]
-    slack_email: Mapped[str50 | None]
-    notion_email: Mapped[str50 | None]
-    apple_email: Mapped[str50 | None]
+    github_id: Mapped[str50_default_none]
+    github_email: Mapped[str50_default_none]
+    slack_id: Mapped[str50_default_none] = mapped_column(unique=True)
+    slack_email: Mapped[str50_default_none]
+    notion_email: Mapped[str50_default_none]
+    apple_email: Mapped[str50_default_none]
 
-    is_active_member: Mapped[bool] = mapped_column(Boolean, default=False)
+    is_rookie: Mapped[bool] = mapped_column(Boolean, default=False)
+    is_member: Mapped[bool] = mapped_column(Boolean, default=False)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=False)
     is_admin: Mapped[bool] = mapped_column(Boolean, default=False)
     introduction: Mapped[str] = mapped_column(String(1000), nullable=True)
 

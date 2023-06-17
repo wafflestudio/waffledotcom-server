@@ -11,7 +11,7 @@ from sqlalchemy.orm import relationship
 
 from waffledotcom.src.database.models.base import DeclarativeBase
 from waffledotcom.src.database.models.base import intpk
-from waffledotcom.src.database.models.base import str20
+from waffledotcom.src.database.models.base import str30
 
 if TYPE_CHECKING:
     from waffledotcom.src.database.models.user import User
@@ -39,7 +39,7 @@ class Team(DeclarativeBase):
     __tablename__ = "team"
 
     id: Mapped[intpk]
-    name: Mapped[str20]
+    name: Mapped[str30]
     introduction: Mapped[str] = mapped_column(String(1000), nullable=True)
     users: Mapped[list["User"]] = relationship(
         secondary=team_user_association,
