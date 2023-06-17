@@ -17,10 +17,10 @@ def test_create_sns_account(db_session: Session, sns_account: SNSAccount):
 
 def test_on_delete_sns_account(db_session: Session, sns_account: SNSAccount):
     db_session.add(sns_account)
-    db_session.commit()
+    db_session.flush()
 
     db_session.delete(sns_account)
-    db_session.commit()
+    db_session.flush()
 
     users = db_session.query(User).all()
     sns_accounts = db_session.query(SNSAccount).all()
@@ -36,10 +36,9 @@ def test_on_delete_user_with_sns_account(
 
     db_session.add(user)
     db_session.add(sns_account)
-    db_session.commit()
+    db_session.flush()
 
     db_session.delete(user)
-    db_session.commit()
 
     users = db_session.query(User).all()
     sns_accounts = db_session.query(SNSAccount).all()
@@ -55,7 +54,6 @@ def test_assign_sns_account_to_user(
 
     db_session.add(user)
     db_session.add(sns_account)
-    db_session.commit()
 
     users = db_session.query(User).all()
     sns_accounts = db_session.query(SNSAccount).all()
