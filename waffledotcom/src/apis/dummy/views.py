@@ -1,8 +1,8 @@
 from fastapi import APIRouter
 
-router = APIRouter()
+v1_router = APIRouter(prefix="/v1/dummy", tags=["dummy"])
 
 
-@router.get("/")
+@v1_router.get("")
 def get_dummy():
     return {"dummy": "dummy"}
