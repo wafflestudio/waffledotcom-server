@@ -1,7 +1,6 @@
 from pydantic import BaseSettings
 
-from waffledotcom.src.settings import ROOT_PATH
-from waffledotcom.src.settings import Settings
+from waffledotcom.src.settings import settings
 
 
 class DBConfig(BaseSettings):
@@ -15,11 +14,7 @@ class DBConfig(BaseSettings):
         case_sensitive = False
         env_prefix = "DB_"
 
-        dev_or_prod = Settings().env
-        env_file = (
-            ROOT_PATH / f".env.{dev_or_prod}",
-            ROOT_PATH / f".env.{dev_or_prod}.local",
-        )
+        env_file = settings.env_files
 
     @property
     def url(self) -> str:

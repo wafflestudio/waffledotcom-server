@@ -16,6 +16,8 @@ uvicorn = "^0.22.0"
 bcrypt = "^4.0.1"
 alembic = "^1.11.1"
 mysqlclient = "^2.1.1"
+pygithub = "^1.58.2"
+slack-sdk = "^3.21.3"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -23,6 +25,8 @@ pytest = "^7.3.1"
 pre-commit = "^3.3.1"
 black = "^23.3.0"
 pylint = "^2.17.4"
+devtools = "^0.11.0"
+pyright = "^1.1.314"
 
 [build-system]
 requires = ["poetry-core"]
@@ -37,6 +41,7 @@ pythonpath = [
 exclude = [
     "**/node_modules",
     "**/__pycache__",
+    "**/migrations/versions",
 ]
 venvPath = "."
 venv = ".venv"

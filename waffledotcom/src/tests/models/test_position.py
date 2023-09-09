@@ -17,7 +17,7 @@ def test_create_position(db_session: Session, position: Position):
 
 def test_add_position_with_same_name(db_session: Session, position: Position):
     db_session.add(position)
-    db_session.commit()
+    db_session.flush()
 
     positions = db_session.query(Position).all()
     assert len(positions) == 1
@@ -29,7 +29,7 @@ def test_add_position_with_same_name(db_session: Session, position: Position):
 
     db_session.add(position)
     with pytest.raises(IntegrityError):
-        db_session.commit()
+        db_session.flush()
 
 
 def test_on_delete_position(db_session: Session, user: User, position: Position):

@@ -9,11 +9,11 @@ from waffledotcom.src.database.models.user import User
 @pytest.fixture
 def user() -> User:
     return User(
+        sso_id="abcdef123",
         username="testuser",
-        password="testpassword",
         first_name="Test",
         last_name="User",
-        is_active_member=True,
+        is_active=True,
         is_admin=False,
     )
 

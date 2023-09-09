@@ -8,7 +8,7 @@ from sqlalchemy.orm import relationship
 from waffledotcom.src.database.models import base as base_model
 from waffledotcom.src.database.models.base import intpk
 from waffledotcom.src.database.models.base import mapped_column
-from waffledotcom.src.database.models.base import str20
+from waffledotcom.src.database.models.base import str30
 
 if TYPE_CHECKING:
     from waffledotcom.src.database.models.user import User
@@ -22,5 +22,5 @@ class SNSAccount(base_model.DeclarativeBase):
         ForeignKey("user.id"),
     )
     user: Mapped["User"] = relationship(back_populates="sns_accounts")
-    name: Mapped[str20]
+    name: Mapped[str30]
     url: Mapped[str] = mapped_column(String(200))
