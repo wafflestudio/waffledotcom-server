@@ -85,3 +85,10 @@ alembic downgrade <revision_id>
   - With **ArgoCD**, `waffle-cluster` lets the new image to be deployed as a **Deployment** API resource.
   - Define a manifest file in [waffle-world/apps/](https://github.com/wafflestudio/waffle-world/tree/main/apps)[projectName] including **Deployment**, **ServiceAccount**, **Service**, **VirtualService**, etc.
   - DevOps tools(ex. Istio, Prometheus, etc.) have been managed by **Helm**([/charts](https://github.com/wafflestudio/waffle-world/tree/main/charts)) and **kubectl** command([/misc](https://github.com/wafflestudio/waffle-world/tree/main/misc)).
+
+
+## PN Rules
+와플닷컴에서는 3단계로 간소화된 Pn 룰을 사용합니다.
+- P1: 꼭 반영해주세요. (Request Changes)
+- P2: 웬만하면 반영해주세요. (Comment)
+- P3: 사소한 의견입니다. (Approve)a
