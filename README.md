@@ -91,4 +91,4 @@ alembic downgrade <revision_id>
 와플닷컴에서는 3단계로 간소화된 Pn 룰을 사용합니다.
 - P1: 꼭 반영해주세요. (Request Changes)
 - P2: 웬만하면 반영해주세요. (Comment)
-- P3: 사소한 의견입니다. (Approve)a
+- P3: 사소한 의견입니다. (Approve)
