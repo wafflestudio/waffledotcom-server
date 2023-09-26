@@ -18,6 +18,8 @@ alembic = "^1.11.1"
 mysqlclient = "^2.1.1"
 pygithub = "^1.58.2"
 slack-sdk = "^3.21.3"
+aws-secretsmanager-caching = "^1.1.1.5"
+boto3 = "^1.28.53"
 
 
 [tool.poetry.group.dev.dependencies]

@@ -39,8 +39,3 @@ jobs:
         tags: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
         build-args: |
           ENV=dev
-          DB_HOST=${{ secrets.DB_HOST_DEV }}
-          DB_PORT=${{ secrets.DB_PORT_DEV }}
-          DB_NAME=${{ secrets.DB_NAME_DEV }}
-          DB_USERNAME=${{ secrets.DB_USERNAME_DEV }}
-          DB_PASSWORD=${{ secrets.DB_PASSWORD_DEV }}
