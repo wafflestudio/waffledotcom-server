@@ -16,7 +16,7 @@ class AWSSecretManager(metaclass=SingletonMeta):
         )
         cache_config = SecretCacheConfig()
         self.cache = SecretCache(config=cache_config, client=client)
-        self.secret_name = f"{settings.env}/wacruit"
+        self.secret_name = f"{settings.env}/waffledotcom"
 
     def is_available(self) -> bool:
         if settings.env in ["local", "test"]:
