@@ -35,10 +35,12 @@ db.sqlite3
 
 # Pycharm
 .idea/
-waffledotcom/.idea/
+wacruit/.idea/
 
 # yarn
 node_modules
 
 *.local
 *.pickle
+.DS_Store
+/install-pyenv-win.ps1

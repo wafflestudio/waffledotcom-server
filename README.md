@@ -30,6 +30,21 @@ This repository uses pre-commit hooks to ensure consistent code quality. To inst
 pre-commit install
 ```
 
+## Testing
+
+### MySQL Test DB
+
+```
+docker run --name waffledotcom-test \
+  -e MYSQL_USER=test-user \
+  -e MYSQL_PASSWORD=password \
+  -e MYSQL_ROOT_PASSWORD=root-password \
+  -e MYSQL_DATABASE=testdb \
+  -p 3307:3306 \
+  -d mysql:latest
+```
+
+
 ## Convention
 
 - [Python Google Style Guide](https://google.github.io/styleguide/pyguide.html)

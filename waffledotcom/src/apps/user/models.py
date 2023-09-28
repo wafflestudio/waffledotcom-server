@@ -1,22 +1,35 @@
 from typing import TYPE_CHECKING
 
-from sqlalchemy import Boolean
-from sqlalchemy import String
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
-from sqlalchemy.orm import relationship
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Table
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from waffledotcom.src.database.models.base import DeclarativeBase
-from waffledotcom.src.database.models.base import intpk
-from waffledotcom.src.database.models.base import str30
-from waffledotcom.src.database.models.base import str50_default_none
-from waffledotcom.src.database.models.position import position_user_association
-from waffledotcom.src.database.models.team import team_user_association
+from waffledotcom.src.apps.team.models import team_user_association
+from waffledotcom.src.database.base import (
+    DeclarativeBase,
+    intpk,
+    str30,
+    str50_default_none,
+)
 
 if TYPE_CHECKING:
-    from waffledotcom.src.database.models.position import Position
-    from waffledotcom.src.database.models.sns import SNSAccount
-    from waffledotcom.src.database.models.team import Team
+    from waffledotcom.src.apps.team.models import Team
+
+position_user_association = Table(
+    "position_user_association",
+    DeclarativeBase.metadata,
+    Column(
+        "position_id",
+        Integer,
+        ForeignKey("position.id"),
+        primary_key=True,
+    ),
+    Column(
+        "user_id",
+        Integer,
+        ForeignKey("user.id"),
+        primary_key=True,
+    ),
+)
 
 
 class User(DeclarativeBase):
@@ -57,3 +70,25 @@ class User(DeclarativeBase):
     sns_accounts: Mapped[list["SNSAccount"]] = relationship(
         back_populates="user", cascade="all, delete"
     )
+
+
+class Position(DeclarativeBase):
+    __tablename__ = "position"
+
+    id: Mapped[intpk]
+    name: Mapped[str] = mapped_column(String(50), unique=True)
+    users: Mapped[list["User"]] = relationship(
+        secondary=position_user_association, back_populates="positions"
+    )
+
+
+class SNSAccount(DeclarativeBase):
+    __tablename__ = "sns_account"
+
+    id: Mapped[intpk]
+    user_id: Mapped[int] = mapped_column(
+        ForeignKey("user.id"),
+    )
+    user: Mapped["User"] = relationship(back_populates="sns_accounts")
+    name: Mapped[str30]
+    url: Mapped[str] = mapped_column(String(200))

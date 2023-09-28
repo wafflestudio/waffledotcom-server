@@ -1,10 +1,8 @@
 from __future__ import annotations
 
-from pydantic import BaseModel
-from pydantic import Field
+from pydantic import BaseModel, Field
 
-from waffledotcom.src.database.models.position import Position
-from waffledotcom.src.database.models.user import User
+from waffledotcom.src.apps.user.models import Position, User
 
 
 class UserCreateUpdateRequest(BaseModel):

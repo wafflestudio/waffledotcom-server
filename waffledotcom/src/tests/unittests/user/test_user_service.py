@@ -1,8 +1,8 @@
-from fastapi import HTTPException
 import pytest
+from fastapi import HTTPException
 
-from waffledotcom.src.apis.user.schema import UserCreateUpdateRequest
-from waffledotcom.src.apis.user.services import UserService
+from waffledotcom.src.apps.user.schemas import UserCreateUpdateRequest
+from waffledotcom.src.apps.user.services import UserService
 
 
 def test_create_user(user_service: UserService):

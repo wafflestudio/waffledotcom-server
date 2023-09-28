@@ -1,14 +1,17 @@
-from fastapi import Depends
-from fastapi import HTTPException
+from fastapi import Depends, HTTPException
 from sqlalchemy.exc import IntegrityError
 
-from waffledotcom.src.apis.user.exception import UserAlreadyExistsException
-from waffledotcom.src.apis.user.exception import UserNotFoundException
-from waffledotcom.src.apis.user.repositories import UserRepository
-from waffledotcom.src.apis.user.schema import UserCreateResponse
-from waffledotcom.src.apis.user.schema import UserCreateUpdateRequest
-from waffledotcom.src.apis.user.schema import UserDetailResponse
-from waffledotcom.src.database.models import User
+from waffledotcom.src.apps.user.exceptions import (
+    UserAlreadyExistsException,
+    UserNotFoundException,
+)
+from waffledotcom.src.apps.user.models import User
+from waffledotcom.src.apps.user.repositories import UserRepository
+from waffledotcom.src.apps.user.schemas import (
+    UserCreateResponse,
+    UserCreateUpdateRequest,
+    UserDetailResponse,
+)
 from waffledotcom.src.external.slack.schema import SlackMember
 
 
