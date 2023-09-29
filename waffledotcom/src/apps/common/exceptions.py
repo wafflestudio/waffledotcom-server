@@ -3,7 +3,7 @@ from typing import Any
 from fastapi import HTTPException
 
 
-class WacruitException(HTTPException):
+class WaffleException(HTTPException):
     def __init__(self, status_code: int = 0, detail: str = ""):
         assert status_code != 0, "status_code must be set"
         super().__init__(status_code=status_code, detail=detail)
@@ -25,7 +25,7 @@ class WacruitException(HTTPException):
 
 
 def responses_from(
-    *exceptions: type[WacruitException],
+    *exceptions: type[WaffleException],
 ) -> dict[int | str, dict[str, Any]]:
     responses = {}
     for exc in exceptions:

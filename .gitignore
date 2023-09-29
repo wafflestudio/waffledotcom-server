@@ -35,7 +35,7 @@ db.sqlite3
 
 # Pycharm
 .idea/
-wacruit/.idea/
+waffledotcom/.idea/
 
 # yarn
 node_modules
