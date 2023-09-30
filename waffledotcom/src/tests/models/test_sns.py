@@ -1,7 +1,6 @@
 from sqlalchemy.orm import Session
 
-from waffledotcom.src.database.models.sns import SNSAccount
-from waffledotcom.src.database.models.user import User
+from waffledotcom.src.apps.user.models import SNSAccount, User
 
 
 def test_create_sns_account(db_session: Session, sns_account: SNSAccount):

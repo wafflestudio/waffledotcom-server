@@ -2,8 +2,7 @@ import pytest
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
-from waffledotcom.src.database.models.position import Position
-from waffledotcom.src.database.models.user import User
+from waffledotcom.src.apps.user.models import Position, User
 
 
 def test_create_position(db_session: Session, position: Position):

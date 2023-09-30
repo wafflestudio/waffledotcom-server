@@ -33,15 +33,8 @@ repos:
     hooks:
       - id: isort
 
-  - repo: local
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Ruff version.
+    rev: v0.0.291
     hooks:
-      - id: pylint
-        name: pylint
-        entry: pylint
-        language: system
-        types: [python]
-        args: [
-            "-rn", # Only display messages
-            "-sn", # Don't display the score
-            "--rcfile=.pylintrc", # Link to your config file
-          ]
+      - id: ruff

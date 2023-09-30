@@ -1,9 +1,8 @@
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
-from waffledotcom.src.database.connection import get_db_session
-from waffledotcom.src.database.connection import Transaction
-from waffledotcom.src.database.models import User
+from waffledotcom.src.apps.user.models import User
+from waffledotcom.src.database.connection import Transaction, get_db_session
 
 
 class UserRepository:

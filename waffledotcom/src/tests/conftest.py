@@ -1,24 +1,35 @@
-import tempfile
 from typing import Iterable
 
 import pytest
 import sqlalchemy
 from sqlalchemy import orm
 
-from waffledotcom.src.database.models.base import DeclarativeBase
+from waffledotcom.src.database.base import DeclarativeBase
+from waffledotcom.src.database.config import DBConfig
+from waffledotcom.src.settings import settings
+
+
+@pytest.fixture(autouse=True, scope="session")
+def set_test_env():
+    settings.env = "test"
 
 
 @pytest.fixture(scope="session")
-def db_engine() -> Iterable[sqlalchemy.Engine]:
-    with tempfile.TemporaryDirectory() as tmpdirname:
-        url = f"sqlite:////{tmpdirname}/db.sqlite3"
-        engine = sqlalchemy.create_engine(url)
-        DeclarativeBase.metadata.create_all(bind=engine)
+def db_config() -> DBConfig:
+    return DBConfig(_env_file=settings.env_files)  # type: ignore
 
-        try:
-            yield engine
-        finally:
-            engine.dispose()
+
+@pytest.fixture(scope="session")
+def db_engine(db_config: DBConfig) -> Iterable[sqlalchemy.Engine]:
+    url = db_config.url
+    engine = sqlalchemy.create_engine(url, echo=True)
+    DeclarativeBase.metadata.create_all(bind=engine)
+
+    try:
+        yield engine
+    finally:
+        DeclarativeBase.metadata.drop_all(bind=engine)
+        engine.dispose()
 
 
 @pytest.fixture(scope="function")
