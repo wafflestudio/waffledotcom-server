@@ -30,10 +30,8 @@ class Settings(BaseSettings):
         if self.env in ["local", "test"]:
             return (ROOT_PATH / f".env.{self.env}",)
 
-        return (
-            ROOT_PATH / f".env.{self.env}",
-            ROOT_PATH / f".env.{self.env}.local",
-        )
+        # Get from AWS Secret Manager
+        return ()
 
 
 settings = Settings()
