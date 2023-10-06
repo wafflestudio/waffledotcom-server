@@ -17,8 +17,8 @@ class DBConfig(BaseSettings):
         case_sensitive=False, env_prefix="DB_", env_file=settings.env_files
     )
 
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
         aws_secrets = AWSSecretManager()
         if aws_secrets.is_available():
             self.username = aws_secrets.get_secret("db_username")
