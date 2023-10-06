@@ -12,7 +12,7 @@ from waffledotcom.src.apps.user.schemas import (
     UserCreateUpdateRequest,
     UserDetailResponse,
 )
-from waffledotcom.src.external.slack.schema import SlackMember
+from waffledotcom.src.batch.slack.schema import SlackMember
 
 
 class UserService:
