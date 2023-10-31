@@ -17,6 +17,7 @@ class SlackMemberProfile(BaseModel):
     first_name: str | None = None
     last_name: str | None = None
     email: str | None = None
+    phone: str | None = None
     image_192: str | None = None
 
 
