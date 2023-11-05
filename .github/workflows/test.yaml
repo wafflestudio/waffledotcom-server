@@ -41,8 +41,7 @@ jobs:
           path: "./waffledotcom/test.xml"
           reporter: java-junit
 
-      # run pre-commit only different from base branch
-      # it contains pylint, black, isort, etc.
       - name: Run pre-commit
         run: |
+          git fetch origin ${{ github.base_ref }}
           poetry run pre-commit run --from-ref origin/${{ github.base_ref }} --to-ref HEAD
