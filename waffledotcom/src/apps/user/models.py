@@ -46,6 +46,8 @@ class User(DeclarativeBase):
     department: Mapped[str50_default_none]
     college: Mapped[str50_default_none]
 
+    generation: Mapped[str30 | None]
+
     phone_number: Mapped[str30 | None]
 
     github_id: Mapped[str50_default_none]

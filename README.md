@@ -44,6 +44,18 @@ docker run --name waffledotcom-test \
   -d mysql:latest
 ```
 
+To run locally:
+
+```
+docker run -d \
+  -e MYSQL_ROOT_PASSWORD=local \
+  -e MYSQL_DATABASE=waffledotcom_local \
+  -e MYSQL_USER=waffledotcom-local \
+  -e MYSQL_PASSWORD=local \
+  -p 3306:3306 \
+  --name waffledotcom-local \
+  mysql:latest
+```
 
 ## Convention
 

@@ -12,7 +12,7 @@ from waffledotcom.src.apps.user.schemas import (
     UserCreateUpdateRequest,
     UserDetailResponse,
 )
-from waffledotcom.src.external.slack.schema import SlackMember
+from waffledotcom.src.batch.slack.schema import SlackMember
 
 
 class UserService:
@@ -55,16 +55,27 @@ class UserService:
                 slack_id=slack_member.id,
                 slack_email=slack_member.profile.email,
                 first_name=slack_member.real_name or "",
+                phone_number=slack_member.profile.phone or None,
                 last_name="",
                 is_member=True,
             )
             for slack_member in slack_members
         ]
 
-        try:
-            self.user_repository.create_users(users)
-        except IntegrityError as exc:
-            raise UserAlreadyExistsException from exc
+        for user in users:
+            assert isinstance(user.slack_id, str)
+            if (
+                created_user := self.user_repository.get_user_by_slack_id(user.slack_id)
+            ) is None:
+                self.user_repository.create_user(user)
+                continue
+
+            created_user.slack_email = user.slack_email
+            created_user.phone_number = user.phone_number
+            created_user.image_url = user.image_url
+            created_user.first_name = user.first_name
+            created_user.last_name = user.last_name
+            self.user_repository.update_user(created_user)
 
     def update_user(
         self, user_id: int, request: UserCreateUpdateRequest

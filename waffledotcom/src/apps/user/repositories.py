@@ -23,6 +23,9 @@ class UserRepository:
     def get_user_by_sso_id(self, sso_id: str) -> User | None:
         return self.session.query(User).filter(User.sso_id == sso_id).first()
 
+    def get_user_by_slack_id(self, slack_id: str) -> User | None:
+        return self.session.query(User).filter(User.slack_id == slack_id).first()
+
     def create_user(self, user: User) -> User:
         with self.transaction:
             self.session.add(user)
