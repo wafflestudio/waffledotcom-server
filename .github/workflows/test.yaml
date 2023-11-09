@@ -59,8 +59,10 @@ jobs:
           path: "./waffledotcom/test.xml"
           reporter: java-junit
 
-      - name: Check Ruff
-        uses: chartboost/ruff-action@v1
+      - name: Run pre-commit
+        run: |
+          git fetch origin ${{ github.base_ref }}
+          poetry run pre-commit run --from-ref origin/${{ github.base_ref }} --to-ref HEAD
 
       - name: Run alembic migration test
         run: |
