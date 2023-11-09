@@ -1,20 +1,26 @@
 from typing import Iterator
 
-from fastapi import Depends
 import sqlalchemy
+from fastapi import Depends
 from sqlalchemy import orm
 from sqlalchemy.orm.session import Session
 
-from waffledotcom.src.database.config import DBConfig
+from waffledotcom.src.database.config import db_config
+from waffledotcom.src.settings import settings
 from waffledotcom.src.utils.singleton import SingletonMeta
 
 
 class DBSessionFactory(metaclass=SingletonMeta):
     def __init__(self):
-        self._engine: sqlalchemy.Engine = sqlalchemy.create_engine(DBConfig().url)
+        self._engine: sqlalchemy.Engine = sqlalchemy.create_engine(
+            db_config.url, echo=settings.is_local
+        )
         self._session_maker = orm.sessionmaker(
             bind=self._engine, expire_on_commit=False
         )
+
+    def get_engine(self) -> sqlalchemy.Engine:
+        return self._engine
 
     def make_session(self) -> orm.Session:
         session = self._session_maker()

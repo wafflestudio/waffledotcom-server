@@ -1,13 +1,13 @@
 from pathlib import Path
 from typing import Literal
 
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 
 ROOT_PATH = Path(__file__).parent.parent.parent
 
 
 class Settings(BaseSettings):
-    env: Literal["dev", "prod", "local"] = "local"
+    env: Literal["dev", "prod", "local", "test"] = "local"
 
     @property
     def is_dev(self) -> bool:
@@ -22,14 +22,16 @@ class Settings(BaseSettings):
         return self.env == "local"
 
     @property
-    def env_files(self) -> tuple[Path, ...]:
-        if self.is_local:
-            return (ROOT_PATH / ".env.local",)
+    def is_test(self) -> bool:
+        return self.env == "test"
 
-        return (
-            ROOT_PATH / f".env.{self.env}",
-            ROOT_PATH / f".env.{self.env}.local",
-        )
+    @property
+    def env_files(self) -> tuple[Path, ...]:
+        if self.env in ["local", "test"]:
+            return (ROOT_PATH / f".env.{self.env}",)
+
+        # Get from AWS Secret Manager
+        return ()
 
 
 settings = Settings()

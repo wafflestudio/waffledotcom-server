@@ -1,9 +1,7 @@
 import pytest
 
-from waffledotcom.src.database.models.position import Position
-from waffledotcom.src.database.models.sns import SNSAccount
-from waffledotcom.src.database.models.team import Team
-from waffledotcom.src.database.models.user import User
+from waffledotcom.src.apps.team.models import Team
+from waffledotcom.src.apps.user.models import Position, SNSAccount, User
 
 
 @pytest.fixture

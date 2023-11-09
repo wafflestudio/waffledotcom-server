@@ -2,7 +2,7 @@ import pytest
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
-from waffledotcom.src.database.models.user import User
+from waffledotcom.src.apps.user.models import User
 
 
 def test_create_user(db_session: Session, user: User):
