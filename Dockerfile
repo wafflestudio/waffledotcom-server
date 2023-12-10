@@ -18,6 +18,10 @@ FROM python:3.11-slim-buster as runtime
 ENV VIRTUAL_ENV=/app/.venv \
     PATH="/app/.venv/bin:$PATH"
 
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libmariadb-dev \
+    && rm -rf /var/lib/apt/lists/*
+
 COPY --from=builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 
 COPY waffledotcom ./waffledotcom
