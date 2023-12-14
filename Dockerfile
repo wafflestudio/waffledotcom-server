@@ -15,8 +15,11 @@ RUN --mount=type=cache,target=$POETRY_CACHE_DIR poetry install --without dev --n
 
 FROM python:3.11-slim-buster as runtime
 
+ARG ENV
+
 ENV VIRTUAL_ENV=/app/.venv \
-    PATH="/app/.venv/bin:$PATH"
+    PATH="/app/.venv/bin:$PATH" \
+    env=$ENV
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libmariadb-dev \
