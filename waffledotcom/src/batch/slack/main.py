@@ -22,7 +22,10 @@ async def create_users_from_slack(
 
 def main():
     solver = DependencySolver()
-    asyncio.run(solver.run(create_users_from_slack))
+    try:
+        asyncio.create_task(solver.run(create_users_from_slack))
+    except RuntimeError:
+        asyncio.run(solver.run(create_users_from_slack))
 
 
 if __name__ == "__main__":

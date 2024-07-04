@@ -23,6 +23,8 @@ pydantic-settings = "^2.0.3"
 httpx = "^0.25.0"
 pydantic = "^2.4.2"
 aiohttp = "^3.9.5"
+schedule = "^1.2.2"
+pytz = "^2024.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.2"
