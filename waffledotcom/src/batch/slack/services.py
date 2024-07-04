@@ -7,7 +7,7 @@ from slack_sdk.web.async_client import AsyncWebClient
 from slack_sdk.web.async_slack_response import AsyncSlackResponse
 
 from waffledotcom.src.batch.slack.config import slack_config
-from waffledotcom.src.batch.slack.schema import SlackMember
+from waffledotcom.src.batch.slack.schema import SlackMember, SlackMemberProfile
 
 
 class AsyncSlackApiService:
@@ -29,6 +29,19 @@ class AsyncSlackApiService:
         ]
 
         return members
+
+    async def get_profile(self, user_key: str) -> SlackMemberProfile:
+        resp = await self.call_api_with_retry(
+            self.client.users_profile_get,
+            kwargs={"user": user_key},
+        )
+
+        if not resp.get("ok", False) or "profile" not in resp:
+            raise SlackApiError("Slack API Error", resp.data)
+
+        profile = SlackMemberProfile(**resp.get("profile", {}))
+
+        return profile
 
     async def call_api_with_retry(
         self,

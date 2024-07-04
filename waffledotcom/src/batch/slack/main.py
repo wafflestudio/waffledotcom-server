@@ -13,7 +13,10 @@ async def create_users_from_slack(
     slack_api_service: AsyncSlackApiService = Depends(),
 ):
     members_to_create = await slack_api_service.get_members()
-    user_service.create_users_from_slack(members_to_create)
+    for member in members_to_create:
+        profile = await slack_api_service.get_profile(member.id)
+        member.profile = profile
+    user_service.create_or_update_users_from_slack(members_to_create)
     logger.debug(f"Created {len(members_to_create)} users from slack")
 
 
