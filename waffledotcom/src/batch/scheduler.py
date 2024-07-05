@@ -4,6 +4,7 @@ TODO : 추후 배치잡이 많아지거나 부하가 심하다고 판단되면 p
 
 import asyncio
 from collections.abc import Callable
+from datetime import datetime
 from functools import wraps
 
 from loguru import logger
@@ -37,7 +38,7 @@ def job_wrapper(job_func: Callable):
 
 def setup_job_schedule(scheduler: Scheduler):
     if settings.is_dev:
-        scheduler.every().saturday.at("00:00", "Asia/Seoul").do(
+        scheduler.every().saturday.at("05:00", "Asia/Seoul").do(
             job_wrapper(create_users_from_slack)
         )
     if settings.is_prod:
@@ -62,6 +63,15 @@ async def run_scheduling_service():
     scheduler = Scheduler()
     setup_job_schedule(scheduler)
     while True:
-        # 최소 주기를 60초로 설정
-        await asyncio.sleep(60)
+        next_run = scheduler.get_next_run()
+
+        # 앞으로 더 이상 스케줄된 작업이 없다면 스케줄링 서비스를 종료한다.
+        if next_run is None:
+            logger.info("No jobs scheduled. Exiting scheduling service")
+            break
+
+        # 다음 작업이 실행되기까지 대기해야할 시간을 계산한다.
+        now = datetime.now()
+        delay = max((next_run - now).total_seconds(), 1)
+        await asyncio.sleep(delay)
         scheduler.run_pending()
