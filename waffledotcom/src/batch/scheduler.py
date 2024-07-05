@@ -14,6 +14,8 @@ from waffledotcom.src.batch.slack.main import create_users_from_slack
 from waffledotcom.src.settings import settings
 from waffledotcom.src.utils.dependency_solver import solver
 
+scheduler = Scheduler()
+
 
 def job_wrapper(job_func: Callable):
     job_name = job_func.__qualname__
@@ -36,15 +38,15 @@ def job_wrapper(job_func: Callable):
     return run_in_loop
 
 
-def setup_job_schedule(scheduler: Scheduler):
+def setup_job_schedule():
     if settings.is_dev:
-        scheduler.every().saturday.at("05:00", "Asia/Seoul").do(
+        scheduler.every().saturday.at("12:00", "Asia/Seoul").do(
             job_wrapper(create_users_from_slack)
-        )
+        ).tag("slack")
     if settings.is_prod:
         scheduler.every().sunday.at("00:00", "Asia/Seoul").do(
             job_wrapper(create_users_from_slack)
-        )
+        ).tag("slack")
 
     for job in scheduler.get_jobs():
         job_name = getattr(job.job_func, "__qualname__", "Unknown")
@@ -60,8 +62,7 @@ def setup_job_schedule(scheduler: Scheduler):
 
 
 async def run_scheduling_service():
-    scheduler = Scheduler()
-    setup_job_schedule(scheduler)
+    setup_job_schedule()
     while True:
         next_run = scheduler.get_next_run()
 
