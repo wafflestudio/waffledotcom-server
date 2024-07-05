@@ -5,7 +5,7 @@ from loguru import logger
 
 from waffledotcom.src.apps.user.services import UserService
 from waffledotcom.src.batch.slack.services import AsyncSlackApiService
-from waffledotcom.src.utils.dependency_solver import DependencySolver
+from waffledotcom.src.utils.dependency_solver import solver
 
 
 async def create_users_from_slack(
@@ -21,7 +21,6 @@ async def create_users_from_slack(
 
 
 def main():
-    solver = DependencySolver()
     try:
         asyncio.create_task(solver.run(create_users_from_slack))
     except RuntimeError:
