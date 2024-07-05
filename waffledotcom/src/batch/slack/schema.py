@@ -44,9 +44,14 @@ class SlackMemberProfile(BaseModel):
     @classmethod
     def check_github_id(cls, value: str | None) -> str | None:
         result = urlparse(value)
-        assert result.scheme == "https", "Invalid URL scheme"
-        assert result.netloc in ["github.com", "www.github.com"], "Invalid URL netloc"
-        return str(result.path).split("/")[1]
+        if result.scheme != "https":
+            return None
+        if not isinstance(result.netloc, str):
+            return None
+        if result.netloc.endswith("github.com"):
+            return str(result.path).split("/")[1]
+        if result.netloc.endswith("github.io"):
+            return str(result.netloc).split(".")[0]
 
 
 class SlackMember(BaseModel):
