@@ -15,3 +15,14 @@ class JobDto(BaseModel):
 
 class ScheduleResponse(BaseModel):
     jobs: list[JobDto]
+
+
+class ForceRunResult(BaseModel):
+    name: str
+    tags: list[str]
+    success: bool
+    reason: str | None = None
+
+
+class ForceRunResponse(BaseModel):
+    results: list[ForceRunResult]

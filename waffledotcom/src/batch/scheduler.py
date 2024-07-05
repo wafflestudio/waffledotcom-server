@@ -8,13 +8,17 @@ from datetime import datetime
 from functools import wraps
 
 from loguru import logger
-from schedule import Scheduler
+from schedule import Job, Scheduler
 
 from waffledotcom.src.batch.slack.main import create_users_from_slack
 from waffledotcom.src.settings import settings
 from waffledotcom.src.utils.dependency_solver import solver
 
 scheduler = Scheduler()
+
+
+def get_job_name(job: Job) -> str:
+    return getattr(job.job_func, "__qualname__", "Unknown")
 
 
 def job_wrapper(job_func: Callable):
@@ -49,7 +53,7 @@ def setup_job_schedule():
         ).tag("slack")
 
     for job in scheduler.get_jobs():
-        job_name = getattr(job.job_func, "__qualname__", "Unknown")
+        job_name = get_job_name(job)
 
         logger.info(
             "Job [{job_name}] is scheduled every {interval} {unit}. Next run at"
