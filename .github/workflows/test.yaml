@@ -41,6 +41,7 @@ jobs:
 
       - name: Set poetry environment
         run: |
+          poetry config virtualenvs.in-project true --local
           poetry env use 3.11
 
       - name: Install dependencies
