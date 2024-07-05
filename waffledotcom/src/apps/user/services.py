@@ -48,34 +48,50 @@ class UserService:
             raise UserAlreadyExistsException from exc
         return UserCreateResponse.from_orm(user)
 
-    def create_users_from_slack(self, slack_members: list[SlackMember]) -> None:
-        users = [
-            User(
-                image_url=slack_member.profile.image_192,
+    def create_or_update_users_from_slack(
+        self, slack_members: list[SlackMember]
+    ) -> None:
+        for slack_member in slack_members:
+            self.create_or_update_user_from_slack(slack_member)
+
+    def create_or_update_user_from_slack(self, slack_member: SlackMember) -> None:
+        deleted_or_not_certified = (
+            slack_member.deleted
+            or slack_member.is_bot
+            or not slack_member.is_email_confirmed
+        )
+
+        if deleted_or_not_certified:
+            return
+
+        user = self.user_repository.get_user_by_slack_id(slack_member.id)
+
+        if user is None:
+            user = User(
                 slack_id=slack_member.id,
+                first_name=slack_member.profile.first_name or "",
+                last_name=slack_member.profile.last_name or "",
                 slack_email=slack_member.profile.email,
-                first_name=slack_member.real_name or "",
                 phone_number=slack_member.profile.phone or None,
-                last_name="",
+                image_url=slack_member.profile.image_192,
+                github_id=slack_member.profile.github_id,
+                # 추후 DB의 Position 테이블과 정합성 맞춘 후 추가
+                # position=slack_member.profile.position,
+                generation=slack_member.profile.generation,
                 is_member=True,
             )
-            for slack_member in slack_members
-        ]
-
-        for user in users:
-            assert isinstance(user.slack_id, str)
-            if (
-                created_user := self.user_repository.get_user_by_slack_id(user.slack_id)
-            ) is None:
-                self.user_repository.create_user(user)
-                continue
-
-            created_user.slack_email = user.slack_email
-            created_user.phone_number = user.phone_number
-            created_user.image_url = user.image_url
-            created_user.first_name = user.first_name
-            created_user.last_name = user.last_name
-            self.user_repository.update_user(created_user)
+            self.user_repository.create_user(user)
+        else:
+            user.first_name = slack_member.profile.first_name or user.first_name
+            user.last_name = slack_member.profile.last_name or user.last_name
+            user.slack_email = slack_member.profile.email or user.slack_email
+            user.phone_number = slack_member.profile.phone or user.phone_number
+            user.image_url = slack_member.profile.image_192 or user.image_url
+            user.github_id = slack_member.profile.github_id or user.github_id
+            # user.position = slack_member.profile.position or user.position
+            user.generation = slack_member.profile.generation or user.generation
+            user.is_member = True
+            self.user_repository.update_user(user)
 
     def update_user(
         self, user_id: int, request: UserCreateUpdateRequest

@@ -32,16 +32,14 @@ jobs:
         run: mysql -h 127.0.0.1 -P 3307 -u root -p'root-password' -e "ALTER DATABASE testdb CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci"
 
       - name: Install poetry
-        run: pipx install poetry
+        run: |
+          pipx install poetry
+          poetry config virtualenvs.in-project true --local
 
       - uses: actions/setup-python@v4
         with:
           python-version: 3.11
           cache: poetry
-
-      - name: Set poetry environment
-        run: |
-          poetry env use 3.11
 
       - name: Install dependencies
         run: poetry install --no-root
