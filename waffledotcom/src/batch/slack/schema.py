@@ -10,7 +10,7 @@ PHONE_PATTERN = re.compile(r"^(010|011|016)\d{7,8}$")
 
 
 class CustomFieldId(StrEnum):
-    GITHUB_ID = "Xf01UD0C7526"
+    GITHUB_LINK = "Xf01UD0C7526"
     POSITION = "Xf01UD0AM3S6"
     GENERATION = "Xf02CN9EEQCD"
 
@@ -22,7 +22,7 @@ class SlackMemberProfile(BaseModel):
     phone: str | None = None
     image_192: str | None = None
     github_id: str | None = Field(
-        None, validation_alias=AliasPath("fields", CustomFieldId.GITHUB_ID, "value")
+        None, validation_alias=AliasPath("fields", CustomFieldId.GITHUB_LINK, "value")
     )
     position: str | None = Field(
         None, validation_alias=AliasPath("fields", CustomFieldId.POSITION, "value")
