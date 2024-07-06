@@ -1,5 +1,5 @@
 from fastapi import Depends
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from waffledotcom.src.apps.user.models import User
 from waffledotcom.src.database.connection import Transaction, get_db_session
@@ -15,7 +15,7 @@ class UserRepository:
         self.transaction = transaction
 
     def get_users(self) -> list[User]:
-        return self.session.query(User).all()
+        return self.session.query(User).options(joinedload(User.positions)).all()
 
     def get_user_by_id(self, user_id: int) -> User | None:
         return self.session.query(User).filter(User.id == user_id).first()
