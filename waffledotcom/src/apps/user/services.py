@@ -8,9 +8,9 @@ from waffledotcom.src.apps.user.exceptions import (
 from waffledotcom.src.apps.user.models import User
 from waffledotcom.src.apps.user.repositories import UserRepository
 from waffledotcom.src.apps.user.schemas import (
+    SimpleUserResponse,
     UserCreateResponse,
     UserCreateUpdateRequest,
-    UserDetailResponse,
 )
 from waffledotcom.src.batch.slack.schema import SlackMember
 
@@ -95,7 +95,7 @@ class UserService:
 
     def update_user(
         self, user_id: int, request: UserCreateUpdateRequest
-    ) -> UserDetailResponse:
+    ) -> SimpleUserResponse:
         user = self.user_repository.get_user_by_id(user_id)
         if user is None:
             raise UserNotFoundException
@@ -104,8 +104,8 @@ class UserService:
         if user is None:
             raise UserNotFoundException
 
-        return UserDetailResponse.from_orm(user)
+        return SimpleUserResponse.from_orm(user)
 
-    def list_users(self) -> list[UserDetailResponse]:
+    def list_users(self) -> list[SimpleUserResponse]:
         users = self.user_repository.get_users()
-        return [UserDetailResponse.from_orm(user) for user in users]
+        return [SimpleUserResponse.from_orm(user) for user in users]
