@@ -41,3 +41,9 @@ waffledotcom/.idea/
 node_modules
 
 *.local
+*.pickle
+.DS_Store
+/install-pyenv-win.ps1
+
+*.json
+*.csv

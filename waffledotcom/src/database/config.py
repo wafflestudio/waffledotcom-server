@@ -1,7 +1,9 @@
-from pydantic import BaseSettings
+from urllib.parse import quote_plus
 
-from waffledotcom.src.settings import ROOT_PATH
-from waffledotcom.src.settings import Settings
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+from waffledotcom.src.secrets import AWSSecretManager
+from waffledotcom.src.settings import settings
 
 
 class DBConfig(BaseSettings):
@@ -11,19 +13,27 @@ class DBConfig(BaseSettings):
     port: int = 0
     name: str = ""
 
-    class Config:
-        case_sensitive = False
-        env_prefix = "DB_"
+    model_config = SettingsConfigDict(
+        case_sensitive=False, env_prefix="DB_", env_file=settings.env_files
+    )
 
-        dev_or_prod = Settings().env
-        env_file = (
-            ROOT_PATH / f".env.{dev_or_prod}",
-            ROOT_PATH / f".env.{dev_or_prod}.local",
-        )
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        aws_secrets = AWSSecretManager()
+        if aws_secrets.is_available():
+            self.username = aws_secrets.get_secret("db_username")
+            self.password = quote_plus(aws_secrets.get_secret("db_password"))
+            self.host = aws_secrets.get_secret("db_host")
+            self.port = int(aws_secrets.get_secret("db_port"))
+            self.name = aws_secrets.get_secret("db_name")
 
     @property
     def url(self) -> str:
         return (
             f"mysql+mysqldb://{self.username}:{self.password}"
             f"@{self.host}:{self.port}/{self.name}"
+            "?charset=utf8mb4"
         )
+
+
+db_config = DBConfig()

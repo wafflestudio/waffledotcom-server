@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
-from waffledotcom.src.database.models.team import Team
-from waffledotcom.src.database.models.user import User
+from waffledotcom.src.apps.team.models import Team
+from waffledotcom.src.apps.user.models import User
 
 
 def test_create_team(db_session: Session, team: Team):

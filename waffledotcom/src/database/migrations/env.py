@@ -1,10 +1,10 @@
 from logging.config import fileConfig
 
-from alembic import context
 import sqlalchemy
+from alembic import context
 
-from waffledotcom.src.database.config import DBConfig
-from waffledotcom.src.database.models.base import DeclarativeBase
+from waffledotcom.src.database.base import DeclarativeBase
+from waffledotcom.src.database.config import db_config
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -36,10 +36,12 @@ def run_migrations_offline() -> None:
 
     """
     context.configure(
-        url=DBConfig().url,
+        url=db_config.url,
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
+        compare_type=True,
+        compare_server_default=True,
     )
 
     with context.begin_transaction():
@@ -53,10 +55,15 @@ def run_migrations_online() -> None:
     and associate a connection with the context.
 
     """
-    engine = sqlalchemy.create_engine(DBConfig().url)
+    engine = sqlalchemy.create_engine(db_config.url)
 
     with engine.connect() as connection:
-        context.configure(connection=connection, target_metadata=target_metadata)
+        context.configure(
+            connection=connection,
+            target_metadata=target_metadata,
+            compare_type=True,
+            compare_server_default=True,
+        )
 
         with context.begin_transaction():
             context.run_migrations()
