@@ -1,8 +1,10 @@
-from typing import Iterator
+import asyncio
+from collections.abc import AsyncIterator
 
 import sqlalchemy
 from fastapi import Depends
 from sqlalchemy import orm
+from sqlalchemy.exc import DatabaseError
 from sqlalchemy.orm.session import Session
 
 from waffledotcom.src.database.config import db_config
@@ -22,17 +24,24 @@ class DBSessionFactory(metaclass=SingletonMeta):
     def get_engine(self) -> sqlalchemy.Engine:
         return self._engine
 
-    def make_session(self) -> orm.Session:
-        session = self._session_maker()
-        return session
+    async def make_session(self) -> orm.Session:
+        exc = RuntimeError("이게 실행되면 버그이다.")
+        for _ in range(5):
+            try:
+                session = self._session_maker()
+                return session
+            except DatabaseError as e:
+                exc = e
+                await asyncio.sleep(1)
+        raise exc
 
     def teardown(self):
         orm.close_all_sessions()
         self._engine.dispose()
 
 
-def get_db_session() -> Iterator[orm.Session]:
-    session = DBSessionFactory().make_session()
+async def get_db_session() -> AsyncIterator[orm.Session]:
+    session = await DBSessionFactory().make_session()
 
     try:
         yield session
