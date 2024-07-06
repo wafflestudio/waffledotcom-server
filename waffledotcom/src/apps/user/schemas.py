@@ -51,13 +51,39 @@ class PositionDto(BaseModel):
         )
 
 
+class SimpleUserResponse(BaseModel):
+    id: int
+    username: str | None
+    first_name: str
+    last_name: str
+    image_url: str | None = None
+    positions: list[PositionDto]
+    github_id: str | None
+    slack_id: str | None
+    introduction: str | None
+
+    @staticmethod
+    def from_orm(user: User) -> SimpleUserResponse:
+        return SimpleUserResponse(
+            id=user.id,
+            username=user.username,
+            first_name=user.first_name,
+            last_name=user.last_name,
+            image_url=user.image_url,
+            positions=[PositionDto.from_orm(pos) for pos in user.positions],
+            github_id=user.github_id,
+            slack_id=user.slack_id,
+            introduction=user.introduction,
+        )
+
+
 class UserDetailResponse(BaseModel):
     id: int
     sso_id: str | None
     username: str | None
     first_name: str
-    image_url: str | None = None
     last_name: str
+    image_url: str | None = None
     positions: list[PositionDto]
     department: str | None
     college: str | None
