@@ -15,7 +15,10 @@ from waffledotcom.src.utils.singleton import SingletonMeta
 class DBSessionFactory(metaclass=SingletonMeta):
     def __init__(self):
         self._engine: sqlalchemy.Engine = sqlalchemy.create_engine(
-            db_config.url, echo=settings.is_local
+            db_config.url,
+            echo=settings.is_local,
+            pool_recycle=28000,
+            pool_pre_ping=True,
         )
         self._session_maker = orm.sessionmaker(
             bind=self._engine, expire_on_commit=False
